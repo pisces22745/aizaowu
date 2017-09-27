@@ -2,14 +2,23 @@
   <section id="home">
     <y-header></y-header>
     <router-view></router-view>
+    <y-frame>
+      <login></login>
+    </y-frame>
+    <!--<registe></registe>-->
   </section>
 </template>
 <script>
   import Yheader from '@/components/header/header'
+  import Yframe from '@/components/frame/frame'
+  import login from '@/components/login/login'
+//  import registe from '@/components/registe/registe'
 
   export default {
     components: {
-      'y-header': Yheader
+      'y-header': Yheader,
+      'y-frame':Yframe,
+      login
     }
   }
 </script>

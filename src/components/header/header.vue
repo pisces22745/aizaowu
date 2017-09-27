@@ -113,7 +113,7 @@
         }],
         keyWord: '',
         keyWordFlag: false,
-        headerImg: 'http://wx.qlogo.cn/mmopen/PiajxSqBRaELoYejTIYymHT5Tfg4zm4ia2LqMA5j3UvUsTqkW8gXvC4zjBAMnIpEibyKISndDXSAbQj3ULfaCnONA/0',
+        headerImg: '',
         childMenu: [],
         childMenuFlag: false
       }
