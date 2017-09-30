@@ -18,16 +18,16 @@
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     padding: 40px 25px;
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgba(255, 255, 255, .9);
     & > i {
       display: block;
       width: 129px;
       height: 54px;
-      margin-bottom: 40px;
+      margin: 0 auto 40px;
       background: url("../../../static/image/logo.png") no-repeat center center/100%;
     }
     .input-wrapper {
-      width: 260px;
+      width: 280px;
       margin: 0 0 20px;
       input {
         -webkit-box-sizing: border-box;
@@ -35,19 +35,21 @@
         box-sizing: border-box;
         outline: none;
         padding: 14px;
+        font-size: 15px;
+        height: 50px;
         border: 1px solid #000;
         background-color: transparent;
         &::-webkit-input-placeholder{
-          color: #fff;
-          font-size: 16px;
+          color: #bdbdbd;
+          font-size: 15px;
         }
-        &:-moz-placeholder{
-          color: #fff;
-          font-size: 16px;
+        &::-moz-placeholder{  // 火狐两个冒号
+          color: #bdbdbd;
+          font-size: 15px;
         }
-        &:-ms-input-placeholder{
-          color: #fff;
-          font-size: 16px;
+        &:-ms-input-placeholder{  // ie 一个冒号
+          color: #bdbdbd;
+          font-size: 15px;
         }
       }
     }
@@ -55,11 +57,16 @@
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      padding: 15px;
+      padding: 15px 12px;
       border: none;
-      font-size: 20px;
+      font-size: 18px;
       color: #fff;
-      background-color: #000;
+      cursor: pointer;
+      -webkit-transition: all .2s;
+      -moz-transition: all .2s;
+      -ms-transition: all .2s;
+      -o-transition: all .2s;
+      transition: all .2s;
       &.comfirm {
         width: 100%;
       }

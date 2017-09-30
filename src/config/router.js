@@ -1,32 +1,32 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
-
+// () => import('vue的文件文职');
 export default new Router({
   routes: [
     {
       path: '/',   // 首页
       name: 'Home',
-      component: resolve => require(['@/pages/index'], resolve),
+      component: () => import('@/pages/index'),
       redirect: '/index',
       children: [{
         path: 'index',   // 首页
         name: 'Index',
-        component: resolve => require(['@/pages/home/index'], resolve)
+        component: () => import('@/pages/home/index')
       },{
         path: 'product',   // 产品列表页面
         name: 'Product',
-        component: resolve => require(['@/pages/product/index'], resolve)
+        component: () => import('@/pages/product/index')
       },{
         path: 'designer',   // 首页
         name: 'Designer',
-        component: resolve => require(['@/pages/designer/index'], resolve)
+        component: () => import('@/pages/designer/index')
       }]
     }, {
       path: '/diy',   // 首页
       name: 'Diy',
-      component: resolve => require(['@/pages/diy'], resolve)
+      component: () => import('@/pages/diy')
     }
   ]
 })
+

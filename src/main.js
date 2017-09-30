@@ -2,6 +2,9 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import store from './vuex/store'
+import "babel-polyfill"
+
 import router from './config/router'
 
 require('@/style/base/reset.css')
@@ -14,6 +17,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
-  components: {App}
-})
+  render: h => h(App)
+}).$mount('#app')

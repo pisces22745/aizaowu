@@ -9,8 +9,9 @@
   </div>
 </template>
 <script>
-  import Swiper from 'swiper'
-  import 'swiper/dist/css/swiper.min.css'
+  import Swiper from '../../../static/swiper3.4.2/js/swiper.js'
+
+  import '../../../static/swiper3.4.2/css/swiper.min.css'
 
   export default {
     props: {
@@ -52,6 +53,17 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+    }
+    .swiper-pagination{
+      .swiper-pagination-bullet{
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        opacity: 1;
+        &.swiper-pagination-bullet-active{
+          background: #fff500;
+        }
       }
     }
   }
