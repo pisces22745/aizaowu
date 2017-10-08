@@ -118,7 +118,7 @@
         }],
         keyWord: '',
         keyWordFlag: false,
-        headerImg: '',
+        headerImg: 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg',
         childMenu: [],
         childMenuFlag: false
       }
@@ -128,10 +128,10 @@
     },
     methods: {
       ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME']),
-      changeType (item, e) {
+      changeType(item, e) {
         this.$router.push(item.path)
       },
-      childMenuShow (item, e) {
+      childMenuShow(item, e) {
         if (e) {
           for (let item of this.$refs.nav) {
             item.className = ''
@@ -142,7 +142,7 @@
         this.childMenu = item.children
       }
     },
-    mounted () {
+    mounted() {
     }
   }
 </script>
@@ -238,10 +238,12 @@
         overflow: hidden;
         cursor: pointer;
         margin-left: 50px;
+        border: 2px solid #000;
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          opacity: .8;
         }
       }
     }

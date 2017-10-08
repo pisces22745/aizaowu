@@ -9,7 +9,7 @@
   export default {
     data() {
       return {
-        imgList: ['http://pic1.win4000.com/wallpaper/4/53d70ec55fcf8.jpg', 'http://pic.pp3.cn/uploads/201508/2015083002.jpg']
+        imgList: ['http://pic1.win4000.com/wallpaper/4/53d70ec55fcf8.jpg', 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg']
       }
     },
     components: {
