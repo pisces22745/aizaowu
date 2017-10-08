@@ -10,8 +10,8 @@
       <button class="comfirm">登录</button>
     </div>
     <div class="input-wrapper registe-forget clearfix">
-      <span class="fl">注册账号</span>
-      <span class="fr">忘记密码</span>
+      <span class="fl" @click="TOGGLE_REGISTE_FRAME">注册账号</span>
+      <span class="fr" @click="TOGGLE_FORGETPWD_FRAME">忘记密码</span>
     </div>
     <div class="input-wrapper login-way">
       <h5>使用第三放账号登陆</h5>
@@ -24,12 +24,20 @@
   </div>
 </template>
 <script>
+  import {mapState, mapMutations} from 'vuex'
+
   export default {
     data() {
       return {
         mobile: '',
         password: ''
       }
+    },
+    computed: {
+      ...mapState(['registeFlag', 'forgetPwdFlag'])
+    },
+    methods: {
+      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME'])
     }
   }
 </script>
@@ -41,48 +49,50 @@
       input {
         width: 100%;
       }
-      h5{
+      h5 {
         position: relative;
         color: #999;
-        &::before,&::after{
+        &::before, &::after {
           content: '';
           position: absolute;
-          top:50%;
+          top: 50%;
           width: 60px;
           height: 1px;
           background-color: #bbb;
         }
-        &::before{
-          left:0;
+        &::before {
+          left: 0;
         }
-        &::after{
-          right:0;
+        &::after {
+          right: 0;
         }
       }
-      &.registe-forget{
-        margin:0 0 40px;
-        span{
+      &.registe-forget {
+        margin: 0 0 40px;
+        span {
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
           display: block;
-          width:50%;
+          width: 50%;
           text-align: center;
-          &:first-child{
+          cursor: pointer;
+          &:first-child {
             border-right: 1px solid #999;
           }
         }
       }
-      &.login-way{
+      &.login-way {
         margin: 0;
-        h5{
+        h5 {
           margin-bottom: 30px;
         }
-        span{
+        span {
           display: inline-block;
           font-size: 30px;
           width: 45px;
           text-align: center;
+          cursor: pointer;
         }
       }
     }

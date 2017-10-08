@@ -8,19 +8,27 @@ Vue.use(Vuex)
 
 // 应用初始状态
 const state = {
-  login: false,
-  registe: false
+  loginFlag: false,
+  registeFlag: false,
+  forgetPwdFlag: false
 }
 
 // 定义所需的 mutations
 const mutations = {
-  TOGGLE_LOGIN_FRAME(state){
-    state.registe = false
-    state.login = !state.login
+  TOGGLE_LOGIN_FRAME(state) {
+    state.registeFlag = false
+    state.forgetPwdFlag = false
+    state.loginFlag = !state.loginFlag
   },
-  TOGGLE_REGISTE_FRAME(state){
-    state.login = false
-    state.registe = !state.registe
+  TOGGLE_REGISTE_FRAME(state) {
+    state.loginFlag = false
+    state.forgetPwdFlag = false
+    state.registeFlag = !state.registeFlag
+  },
+  TOGGLE_FORGETPWD_FRAME(state) {
+    state.registeFlag = false
+    state.loginFlag = false
+    state.forgetPwdFlag = !state.forgetPwdFlag
   }
 }
 // 创建 store 实例

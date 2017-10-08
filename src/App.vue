@@ -11,6 +11,8 @@
 </script>
 <style>
   #app {
+    min-width: 1024px;
+    margin: 0 auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

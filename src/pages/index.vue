@@ -5,13 +5,18 @@
       <router-view></router-view>
     </div>
     <transition name='fade'>
-      <y-frame v-if="login">
+      <y-frame v-if="loginFlag">
         <login></login>
       </y-frame>
     </transition>
     <transition name='fade'>
-      <y-frame v-if="registe">
+      <y-frame v-if="registeFlag">
         <registe></registe>
+      </y-frame>
+    </transition>
+    <transition name='fade'>
+      <y-frame v-if="forgetPwdFlag">
+        <forgetpwd></forgetpwd>
       </y-frame>
     </transition>
   </section>
@@ -21,34 +26,38 @@
   import Yframe from '@/components/frame/frame'
   import login from '@/components/login/login'
   import registe from '@/components/registe/registe'
+  import forgetpwd from '@/components/forgetpwd/forgetpwd'
   import {mapState, mapMutations} from 'vuex'
-  export default {
-    data(){
-      return{
 
-      }
+  export default {
+    data() {
+      return {}
     },
     computed: {
-      ...mapState(['login','registe'])
+      ...mapState(['loginFlag', 'registeFlag', 'forgetPwdFlag'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME']),
-      close(){
-        if(this.login){
+      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_FORGETPWD_FRAME']),
+      close() {
+        if (this.loginFlag) {
           this.TOGGLE_LOGIN_FRAME()
         }
-        if(this.registe){
+        if (this.registeFlag) {
           this.TOGGLE_REGISTE_FRAME()
+        }
+        if (this.forgetPwdFlag) {
+          this.TOGGLE_FORGETPWD_FRAME()
         }
       }
     },
-    mounted(){
+    mounted() {
     },
     components: {
       'y-header': Yheader,
-      'y-frame':Yframe,
+      'y-frame': Yframe,
       login,
-      registe
+      registe,
+      forgetpwd
     }
   }
 </script>

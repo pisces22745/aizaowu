@@ -1,32 +1,33 @@
 <template>
   <header>
-   <nav>
-     <div class="logo">
-       <router-link :to="{path: 'index'}">
-         <img src="../../../static/image/logo.png" alt="">
-       </router-link>
-     </div>
-     <ul class="menu clearfix">
-       <li v-for="(item,index) in menu">
-         <span @mouseenter="childMenuShow(item,$event)" @click="changeType(item,$event)" ref="nav" :class="{active:index===0}">{{item.name}}</span>
-       </li>
-     </ul>
-     <div class="tool">
-       <div class="search clearfix">
-         <transition name='fade'>
-           <input v-if='keyWordFlag' type="text" placeholder="搜索" v-model="keyWord">
-         </transition>
-         <i class="fr iconfont icon-magnifier" @click="keyWordFlag = !keyWordFlag"></i>
-       </div>
-       <div class="user" v-if="headerImg!==''">
-         <img :src="headerImg" alt="头像">
-       </div>
-       <div class="login-registe" v-if="headerImg===''">
-         <span @click="TOGGLE_LOGIN_FRAME">登陆</span>
-         <span @click="TOGGLE_REGISTE_FRAME">注册</span>
-       </div>
-     </div>
-   </nav>
+    <nav>
+      <div class="logo">
+        <router-link :to="{path: 'index'}">
+          <img src="../../../static/image/logo.png" alt="">
+        </router-link>
+      </div>
+      <ul class="menu clearfix">
+        <li v-for="(item,index) in menu">
+          <span @mouseenter="childMenuShow(item,$event)" @click="changeType(item,$event)" ref="nav"
+                :class="{active:index===0}">{{item.name}}</span>
+        </li>
+      </ul>
+      <div class="tool">
+        <div class="search clearfix">
+          <transition name='fade'>
+            <input v-if='keyWordFlag' type="text" placeholder="搜索" v-model="keyWord">
+          </transition>
+          <i class="fr iconfont icon-magnifier" @click="keyWordFlag = !keyWordFlag"></i>
+        </div>
+        <div class="user" v-if="headerImg!==''">
+          <img :src="headerImg" alt="头像">
+        </div>
+        <div class="login-registe" v-if="headerImg===''">
+          <span @click="TOGGLE_LOGIN_FRAME">登陆</span>
+          <span @click="TOGGLE_REGISTE_FRAME">注册</span>
+        </div>
+      </div>
+    </nav>
     <div class="menu-children-wrapper" v-if="childMenuFlag">
       <ul class="menu-children" @mouseleave="childMenuFlag=false">
         <li v-for="item in childMenu">
@@ -123,14 +124,14 @@
       }
     },
     computed: {
-      ...mapState(['login','registe'])
+      ...mapState(['loginFlag', 'registeFlag'])
     },
     methods: {
       ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME']),
-      changeType(item, e) {
+      changeType (item, e) {
         this.$router.push(item.path)
       },
-      childMenuShow(item,e) {
+      childMenuShow (item, e) {
         if (e) {
           for (let item of this.$refs.nav) {
             item.className = ''
@@ -141,7 +142,7 @@
         this.childMenu = item.children
       }
     },
-    mounted(){
+    mounted () {
     }
   }
 </script>
@@ -151,7 +152,7 @@
     position: relative;
     padding: 25px;
     border-bottom: 1px solid #e5e5e5;
-    nav{
+    nav {
       display: flex;
       justify-content: space-between;
       align-items: center;

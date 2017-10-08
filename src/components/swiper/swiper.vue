@@ -6,6 +6,8 @@
       </div>
     </div>
     <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev swiper-button-white"></div>
+    <div class="swiper-button-next swiper-button-white"></div>
   </div>
 </template>
 <script>
@@ -23,6 +25,8 @@
     mounted() {
       var swiper = new Swiper('.swiper-container', {
         pagination: '.swiper-pagination',
+        prevButton: '.swiper-button-prev',
+        nextButton: '.swiper-button-next',
         paginationClickable: true
       })
     }
@@ -55,13 +59,13 @@
         object-fit: cover;
       }
     }
-    .swiper-pagination{
-      .swiper-pagination-bullet{
+    .swiper-pagination {
+      .swiper-pagination-bullet {
         width: 20px;
         height: 20px;
         background: #fff;
         opacity: 1;
-        &.swiper-pagination-bullet-active{
+        &.swiper-pagination-bullet-active {
           background: #fff500;
         }
       }
