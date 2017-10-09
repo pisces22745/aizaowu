@@ -14,12 +14,12 @@
       </ul>
       <div class="tool">
         <div class="search clearfix">
-          <transition name='fade'>
+          <transition name='slide'>
             <input v-if='keyWordFlag' type="text" placeholder="搜索" v-model="keyWord">
           </transition>
           <i class="fr iconfont icon-magnifier" @click="keyWordFlag = !keyWordFlag"></i>
         </div>
-        <div class="user" v-if="headerImg!==''">
+        <div class="user" v-if="headerImg!==''" @mouseenter="userMenuFlag=true">
           <img :src="headerImg" alt="头像">
         </div>
         <div class="login-registe" v-if="headerImg===''">
@@ -35,6 +35,18 @@
         </li>
       </ul>
     </div>
+    <transition name='fade'>
+      <div class="user-menu-wrapper" v-if="userMenuFlag" @mouseleave="userMenuFlag=false">
+        <ul class="user-menu">
+          <li>烧录器</li>
+          <li>个人中心</li>
+          <li>我的订单</li>
+          <li>我的收藏</li>
+          <li>消息中心</li>
+          <li>退出登陆</li>
+        </ul>
+      </div>
+    </transition>
   </header>
 </template>
 <script>
@@ -120,7 +132,8 @@
         keyWordFlag: false,
         headerImg: 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg',
         childMenu: [],
-        childMenuFlag: false
+        childMenuFlag: false,
+        userMenuFlag: false
       }
     },
     computed: {
@@ -150,7 +163,7 @@
 <style scoped lang="less">
   header {
     position: relative;
-    padding: 25px;
+    padding: 25px 48px 25px 25px;
     border-bottom: 1px solid #e5e5e5;
     nav {
       display: flex;
@@ -221,10 +234,10 @@
               &::-webkit-input-placeholder {
                 color: #999;
               }
-              &.fade-enter, &.fade-leave-to {
+              &.slide-enter, &.slide-leave-to {
                 width: 0;
               }
-              &.fade-enter-to, &.fade-leave {
+              &.slide-enter-to, &.slide-leave {
                 width: 120px;
               }
             }
@@ -267,5 +280,41 @@
         }
       }
     }
+    .user-menu-wrapper {
+      position: absolute;
+      top: 100%;
+      right: 20px;
+      z-index: 2;
+      text-align: center;
+      background-color: #fff;
+      -webkit-transition: all .3s;
+      -moz-transition: all .3s;
+      -ms-transition: all .3s;
+      -o-transition: all .3s;
+      transition: all .3s;
+      overflow: hidden;
+      .user-menu {
+        padding: 15px 5px;
+        li {
+          padding: 0 6px;
+          font-size: 16px;
+          margin-bottom: 12px;
+          letter-spacing: 1px;
+          cursor: pointer;
+          &:first-child {
+            font-size: 18px;
+            border-bottom: 1px solid #aaa;
+            padding: 0 6px 12px;
+          }
+          &:last-child {
+            margin-bottom: 0;
+          }
+          &:hover {
+            color: #666;
+          }
+        }
+      }
+    }
+
   }
 </style>

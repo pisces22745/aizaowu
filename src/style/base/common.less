@@ -34,6 +34,15 @@ button:active {
   background-color: rgba(0, 0, 0, .5);
 }
 
+// 淡入淡出
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to, .fade-leave {
+  opacity: 1;
+}
+
 .currency {
   &::before {
     content: '￥';
@@ -145,5 +154,31 @@ button:active {
   77% {
     opacity: 1;
     width: 0;
+  }
+}
+.see-more {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #b5b5b5;
+  &::after {
+    content: '';
+    display: inline-block;
+    vertical-align: baseline;
+    margin-left: 3px;
+    border-top: 1px solid #b5b5b5;
+    border-right: 1px solid #b5b5b5;
+    width: 8px;
+    height: 8px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
   }
 }

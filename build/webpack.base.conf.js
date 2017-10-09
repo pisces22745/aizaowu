@@ -16,7 +16,7 @@ switch (process.env.NODE_ENV) {
     assetsPublicPath = config.dev.assetsPublicPath
     break
   case 'test':
-    assetsPublicPath = config.test.assetsPublicPath
+    assetsPublicPath = config.testlocal.assetsPublicPath
     break
   default:
     assetsPublicPath = config.start.assetsPublicPath

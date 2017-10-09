@@ -18,7 +18,7 @@ export default new Router({
         name: 'Product',
         component: () => import('@/pages/product/index')
       },{
-        path: 'designer',   // 首页
+        path: 'designer',   // 设计师
         name: 'Designer',
         component: () => import('@/pages/designer/index')
       }]
