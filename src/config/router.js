@@ -35,10 +35,6 @@ export default new Router({
           name: 'Security',
           component: () => import('@/pages/user/security/security')
         }, {
-          path: 'address',   // 地址管理
-          name: 'Address',
-          component: () => import('@/pages/user/address/address')
-        }, {
           path: 'order',   // 订单
           name: 'Order',
           component: () => import('@/pages/user/order/order')

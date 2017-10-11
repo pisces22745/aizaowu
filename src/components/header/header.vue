@@ -2,8 +2,8 @@
   <header>
     <nav>
       <div class="logo">
-        <router-link :to="{path: 'index'}">
-          <img src="../../../static/image/logo.png" alt="">
+        <router-link :to="{path: '/index'}">
+          <img src="../../../static/image/logo.png" alt="logo">
         </router-link>
       </div>
       <ul class="menu clearfix">
@@ -19,10 +19,10 @@
           </transition>
           <i class="fr iconfont icon-magnifier" @click="keyWordFlag = !keyWordFlag"></i>
         </div>
-        <div class="user" v-if="headerImg!==''" @mouseenter="userMenuFlag=true">
-          <img :src="headerImg" alt="头像">
+        <div class="user" v-if="logined" @mouseenter="userMenuFlag=true">
+          <img :src="userInfo.headerImg" alt="头像">
         </div>
-        <div class="login-registe" v-if="headerImg===''">
+        <div class="login-registe" v-if="!logined">
           <span @click="TOGGLE_LOGIN_FRAME">登陆</span>
           <span @click="TOGGLE_REGISTE_FRAME">注册</span>
         </div>
@@ -38,12 +38,14 @@
     <transition name='fade'>
       <div class="user-menu-wrapper" v-if="userMenuFlag" @mouseleave="userMenuFlag=false">
         <ul class="user-menu">
-          <li>烧录器</li>
-          <li>个人中心</li>
+          <li>{{userInfo.username}}</li>
+          <li>
+            <router-link :to="{path: '/user/account'}">个人中心</router-link>
+          </li>
           <li>我的订单</li>
           <li>我的收藏</li>
           <li>消息中心</li>
-          <li>退出登陆</li>
+          <li @click="logout">退出登陆</li>
         </ul>
       </div>
     </transition>
@@ -58,69 +60,69 @@
         menu: [{
           name: '服饰',
           search: 'dress',
-          path: 'product',
+          path: '/product',
           children: [{
             name: '短袖T恤',
-            path: 'product',
+            path: '/product',
             search: 'type1'
           }, {
             name: '长袖T恤',
-            path: 'product',
+            path: '/product',
             search: 'type2'
           }, {
             name: '连帽卫衣',
-            path: 'product',
+            path: '/product',
             search: 'type3'
           }, {
             name: '套头卫衣',
-            path: 'product',
+            path: '/product',
             search: 'type4'
           }]
         }, {
           name: '箱包',
           search: 'luggage',
-          path: 'product',
+          path: '/product',
           children: [{
             name: '帆布包',
-            path: 'product',
+            path: '/product',
             search: 'type5'
           }, {
             name: '单肩包',
-            path: 'product',
+            path: '/product',
             search: 'type6'
           }, {
             name: 'mini挎包',
-            path: 'product',
+            path: '/product',
             search: 'type7'
           }, {
             name: '钱包',
-            path: 'product',
+            path: '/product',
             search: 'type8'
           }]
         }, {
           name: '数码',
           search: 'digit',
-          path: 'product',
+          path: '/product',
           children: [{
             name: '手机壳',
-            path: 'product',
+            path: '/product',
             search: 'type9'
           }]
         }, {
           name: '影像',
           search: 'portrait',
-          path: 'product',
+          path: '/product',
           children: [{
             name: '照片书',
-            path: 'product',
+            path: '/product',
             search: 'type10'
           }, {
             name: '明信片',
-            path: 'product',
+            path: '/product',
             search: 'type11'
           }, {
             name: '照片冲印',
-            path: 'product',
+            path: '/product',
             search: 'type12'
           }]
         }, {
@@ -130,17 +132,16 @@
         }],
         keyWord: '',
         keyWordFlag: false,
-        headerImg: 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg',
         childMenu: [],
         childMenuFlag: false,
         userMenuFlag: false
       }
     },
     computed: {
-      ...mapState(['loginFlag', 'registeFlag'])
+      ...mapState(['loginFlag', 'registeFlag', 'userInfo', 'logined'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME']),
+      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME', 'LOGOUT', 'INIT_USER']),
       changeType(item, e) {
         this.$router.push(item.path)
       },
@@ -153,9 +154,14 @@
         }
         this.childMenuFlag = true
         this.childMenu = item.children
+      },
+      logout() {
+        this.LOGOUT()
+        this.userMenuFlag = false
       }
     },
     mounted() {
+      this.INIT_USER()
     }
   }
 </script>
@@ -299,8 +305,12 @@
           padding: 0 6px;
           font-size: 16px;
           margin-bottom: 12px;
-          letter-spacing: 1px;
           cursor: pointer;
+          a {
+            font-size: 16px;
+            letter-spacing: 1px;
+            color: #000;
+          }
           &:first-child {
             font-size: 18px;
             border-bottom: 1px solid #aaa;

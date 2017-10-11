@@ -7,7 +7,7 @@
       <input type="password" v-model="password" placeholder="请输入密码">
     </div>
     <div class="input-wrapper">
-      <button class="comfirm">登录</button>
+      <button class="comfirm" @click="login">登录</button>
     </div>
     <div class="input-wrapper registe-forget clearfix">
       <span class="fl" @click="TOGGLE_REGISTE_FRAME">注册账号</span>
@@ -34,10 +34,28 @@
       }
     },
     computed: {
-      ...mapState(['registeFlag', 'forgetPwdFlag'])
+      ...mapState(['registeFlag', 'forgetPwdFlag', 'logined'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME'])
+      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME', 'LOGIN']),
+      login() {
+        let mobileFlag = /^(13|14|15|17|18)[0-9]{9}$/
+        if (mobileFlag.test(this.mobile) && this.password.length >= 6 && this.password.length <= 20) {
+          this.LOGIN({
+            headerImg: 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg',
+            username: '邵卢勤'
+          })
+          this.TOGGLE_LOGIN_FRAME()
+        } else if (!mobileFlag.test(this.mobile)) {
+          if (this.mobile === '') {
+            alert('请输入手机号')
+          } else {
+            alert('手机号格式错误')
+          }
+        } else {
+          alert('密码必须大于等于6位小于20位')
+        }
+      }
     }
   }
 </script>
