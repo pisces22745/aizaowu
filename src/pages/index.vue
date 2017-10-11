@@ -1,7 +1,7 @@
 <template>
   <section id="home">
     <y-header></y-header>
-    <div @click="close" style="min-height: 800px;">
+    <div @click="close">
       <router-view></router-view>
     </div>
     <transition name='fade'>

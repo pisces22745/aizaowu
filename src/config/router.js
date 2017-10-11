@@ -50,6 +50,10 @@ export default new Router({
           path: 'message',   // 消息
           name: 'Message',
           component: () => import('@/pages/user/message/message')
+        }, {
+          path: 'interest',   // 消息
+          name: 'Interest',
+          component: () => import('@/pages/user/interest/interest')
         }]
       }]
     }, {

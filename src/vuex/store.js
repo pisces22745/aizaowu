@@ -8,7 +8,10 @@ Vue.use(Vuex)
 // 应用初始状态
 const state = {
   logined: false,
-  userInfo: null,
+  userInfo: {
+    headerImg: '',
+    username: ''
+  },
   headerImg: '',
   loginFlag: false,
   registeFlag: false,

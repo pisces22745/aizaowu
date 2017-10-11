@@ -94,6 +94,7 @@
   #product {
     position: relative;
     text-align: center;
+    background-color: #fff;
     .banner {
       height: 620px;
       img {

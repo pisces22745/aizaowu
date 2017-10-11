@@ -264,6 +264,8 @@
   }
 
   #index {
+    background-color: #fff;
+    overflow: hidden;
     .banner {
       margin-bottom: 30px;
     }

@@ -171,6 +171,7 @@
     position: relative;
     padding: 25px 48px 25px 25px;
     border-bottom: 1px solid #e5e5e5;
+    background-color: #fff;
     nav {
       display: flex;
       justify-content: space-between;
