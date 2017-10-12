@@ -1,6 +1,7 @@
-body{
+body {
   background-color: #f5f5f5;
 }
+
 .container {
   width: 950px;
   margin: 0 auto;
@@ -27,6 +28,13 @@ body{
 
 button {
   background-color: rgba(0, 0, 0, 1);
+}
+
+button.hollow {
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid #000;
+  color: #000;
+  padding: 3px 6px;
 }
 
 button:hover {
@@ -159,6 +167,7 @@ button:active {
     width: 0;
   }
 }
+
 .see-more {
   position: absolute;
   right: 0;
@@ -185,3 +194,42 @@ button:active {
     transform: rotate(45deg);
   }
 }
+
+section {
+  .content-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #b5b5b5;
+    h1 {
+      display: inline-block;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #000;
+    }
+  }
+}
+
+.input-group {
+  margin-bottom: 35px;
+  label {
+    margin-right: 25px;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+  input[type="text"] {
+    height: 35px;
+    border: 1px solid #b5b5b5;
+    padding: 0 5px;
+    margin-right: 25px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .radio-wrapper {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 25px;
+    input {
+      vertical-align: middle;
+    }
+  }
+}
+

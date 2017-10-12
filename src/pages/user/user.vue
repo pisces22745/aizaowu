@@ -38,8 +38,12 @@
       background-color: #fff;
     }
     .content {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
       background-color: #fff;
       width: ~'calc(100% - 245px)';
+      padding: 30px 50px;
     }
   }
 </style>

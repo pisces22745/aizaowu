@@ -10,10 +10,10 @@
     <div class="sidebar-content">
       <ul class="menu">
         <li v-for="menu in menus">
-          <router-link :to="menu.to">{{menu.name}}</router-link>
-          <ul class="account-menu">
+          <router-link :to="{path: menu.to}" active-class="active">{{menu.name}}</router-link>
+          <ul class="account-menu" v-if="menu.childMenus">
             <li v-for="childMenu in menu.childMenus">
-              <router-link :to="childMenu.to">{{childMenu.name}}</router-link>
+              <router-link :to="childMenu.to" active-class="active">{{childMenu.name}}</router-link>
             </li>
           </ul>
         </li>
@@ -55,6 +55,11 @@
           name: '消息中心',
           to: '/user/message'
         }]
+      }
+    },
+    methods: {
+      showChild() {
+        console.log(44)
       }
     }
   }
@@ -107,23 +112,23 @@
             padding: 8px 0;
             color: #000;
             font-size: 16px;
-            &:focus {
+            &.active {
               border-bottom: 2px solid #000;
             }
           }
-          .account-menu{
-            li{
+          .account-menu {
+            li {
               padding: 2px 0;
               margin: 2px 0;
               a {
                 font-size: 14px;
                 padding: 2px 0;
-                &:focus {
+                &.active {
                   color: #999;
                   border-bottom: none;
                 }
               }
-              &:first-child{
+              &:first-child {
                 margin-top: 15px;
               }
             }
