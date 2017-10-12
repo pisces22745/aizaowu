@@ -58,15 +58,7 @@
       -moz-box-sizing: border-box;
       box-sizing: border-box;
       padding: 15px 12px;
-      border: none;
       font-size: 18px;
-      color: #fff;
-      cursor: pointer;
-      -webkit-transition: all .2s;
-      -moz-transition: all .2s;
-      -ms-transition: all .2s;
-      -o-transition: all .2s;
-      transition: all .2s;
       &.comfirm {
         width: 100%;
       }

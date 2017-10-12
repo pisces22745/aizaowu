@@ -62,7 +62,7 @@
     .content-body {
       .input-group {
         .radio-wrapper {
-          &::before{
+          &::before {
             margin-right: 5px;
             font-size: 16px;
           }
@@ -75,6 +75,31 @@
             &::before {
               content: '男';
             }
+          }
+        }
+        .select-wrapper {
+          display: inline-block;
+          &::after {
+            margin-right: 15px;
+          }
+          &.year {
+            &::after {
+              content: '年';
+            }
+          }
+          &.month {
+            &::after {
+              content: '月';
+            }
+          }
+          &.day {
+            &::after {
+              content: '日';
+            }
+          }
+          input {
+            width: 100px;
+            margin-right: 15px;
           }
         }
       }
