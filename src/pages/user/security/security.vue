@@ -9,11 +9,11 @@
         <input type="password" id="old-pwd">
       </div>
       <div class="input-group">
-        <label for="new-pwd">旧密码</label>
+        <label for="new-pwd">新密码</label>
         <input type="password" id="new-pwd">
       </div>
       <div class="input-group">
-        <label for="repeat-pwd">旧密码</label>
+        <label for="repeat-pwd">重复新密码</label>
         <input type="password" id="repeat-pwd">
       </div>
       <button>保存</button>
