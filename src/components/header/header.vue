@@ -42,9 +42,13 @@
           <li>
             <router-link :to="{path: '/user/account'}">个人中心</router-link>
           </li>
-          <li>我的订单</li>
-          <li>我的收藏</li>
-          <li>消息中心</li>
+          <li>
+            <router-link :to="{path: '/user/order'}">我的订单</router-link>
+          </li>
+          <li>
+            <router-link :to="{path: '/user/collection'}">我的收藏</router-link>
+          </li>
+          <!--<li>消息中心</li>-->
           <li @click="logout">退出登陆</li>
         </ul>
       </div>
@@ -158,6 +162,7 @@
       logout() {
         this.LOGOUT()
         this.userMenuFlag = false
+        this.$router.push('/index')
       }
     },
     mounted() {

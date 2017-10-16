@@ -51,7 +51,7 @@ export default new Router({
           name: 'Message',
           component: () => import('@/pages/user/message/message')
         }, {
-          path: 'interest',   // 消息
+          path: 'interest',   // 关注
           name: 'Interest',
           component: () => import('@/pages/user/interest/interest')
         }]

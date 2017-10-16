@@ -25,6 +25,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
   #security{
+    padding: 30px 50px;
     button{
       padding: 8px 20px;
       margin-left: 93px;

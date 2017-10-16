@@ -40,19 +40,19 @@
         <div class="add-address" v-if="btnAddFlag">
           <div class="input-group">
             <label for="receiver-name">收货人</label>
-            <input type="text" id="receiver-name">
+            <input type="text" id="receiver-name" v-model="receiver.name">
           </div>
           <div class="input-group">
             <label for="receiver-area">所在地区</label>
-            <input type="text" id="receiver-area">
+            <input type="text" id="receiver-area" v-model="receiver.area">
           </div>
           <div class="input-group">
-            <label for="receiver-address">详细地址</label>
-            <input type="password" id="receiver-address">
+            <label for="receiver-detail">详细地址</label>
+            <input type="text" id="receiver-detail" v-model="receiver.detail">
           </div>
           <div class="input-group">
             <label for="receiver-mobile">手机号码</label>
-            <input type="password" id="receiver-mobile">
+            <input type="text" id="receiver-mobile" v-model="receiver.mobile">
           </div>
           <div class="set-default">
             <i class="iconfont" :class="[defaultFlag ? 'icon-checkbox-default' : 'icon-checkbox-active']"
@@ -83,7 +83,14 @@
           mobile: '15896589784',
           isDefault: false
         }],
-        btnAddFlag: false
+        btnAddFlag: false,
+        receiver:{
+          name: '',
+          area: '',
+          detail: '',
+          mobile: '',
+          isDefault: true
+        }
       }
     },
     methods: {
@@ -101,6 +108,10 @@
       },
       deleteAddress(address, index) {
         this.addresses.splice(index, 1)
+      },
+      saveAddress(){
+        this.receiver.isDefault = !this.defaultFlag
+        this.addresses.push(this.receiver)
       }
     }
   }
@@ -108,6 +119,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
   #address {
+    padding: 30px 50px;
     .content-header {
       margin-bottom: 0;
     }
@@ -117,7 +129,7 @@
       -ms-transition: all .3s;
       -o-transition: all .3s;
       transition: all .3s;
-      #receiver-address {
+      #receiver-detail {
         width: 480px;
       }
       .set-default, button {

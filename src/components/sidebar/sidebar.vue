@@ -51,10 +51,11 @@
         }, {
           name: '我的收藏',
           to: '/user/collection'
-        }, {
-          name: '消息中心',
-          to: '/user/message'
         }]
+        //    , {
+//        name: '消息中心',
+//          to: '/user/message'
+//      }
       }
     },
     methods: {
