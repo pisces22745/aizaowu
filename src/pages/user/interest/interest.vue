@@ -113,6 +113,18 @@
                 color: #999;
                 font-size: 12px;
               }
+              .work{
+                margin-right: 5px;
+                &::before{
+                  content: '作品';
+                }
+              }
+              .fans{
+                margin-right: 5px;
+                &::before{
+                  content: '粉丝';
+                }
+              }
             }
           }
           .interested{
