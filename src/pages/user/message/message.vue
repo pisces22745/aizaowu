@@ -1,6 +1,6 @@
 <template>
   <section id="message">
-    诸涛涛messageaa
+    诸涛涛messagea
   </section>
 </template>
 <script>
