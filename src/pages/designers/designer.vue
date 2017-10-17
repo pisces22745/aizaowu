@@ -1,9 +1,6 @@
 <template>
   <section id="designer">
-    <div>侧边栏</div>
-    <div class="content">
-      内容栏
-    </div>
+
   </section>
 </template>
 <script>

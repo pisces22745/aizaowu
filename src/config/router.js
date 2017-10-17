@@ -19,9 +19,13 @@ export default new Router({
         name: 'Product',
         component: () => import('@/pages/product/index')
       }, {
-        path: 'designer',   // 设计师
+        path: 'designers',   // 设计师列表
+        name: 'Designers',
+        component: () => import('@/pages/designers/index')
+      }, {
+        path: 'designer',   // 设计师主页
         name: 'Designer',
-        component: () => import('@/pages/designer/index')
+        component: () => import('@/pages/designers/designer')
       }, {
         path: 'user',   // 个人中心
         name: 'User',
