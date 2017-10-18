@@ -1,6 +1,8 @@
 <template>
-  <section id="designer">
-    <div class="banner"></div>
+  <section id="designer-all">
+    <div class="banner">
+      <img :src="designers[0].headerImage" alt="">
+    </div>
     <div class="designer-list-wrapper">
       <div class="designer-header">
         <span>手绘插画</span>
@@ -58,5 +60,17 @@
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
+  #designer-all{
+    .banner{
+      height: 400px;
+      margin-bottom: 10px;
+    }
+    .designer-list-wrapper{
+      .designer-header{
+        display: inline-block;
+        padding: 8px;
+      }
+    }
+  }
 </style>

@@ -31,7 +31,7 @@
       ...mapState(['forgetPwdFlag'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_FORGETPWD_FRAME','TOGGLE_DESIGNERREGISTE_FRAME','DESIGNLOGIN']),
+      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_DESIGNERREGISTE_FRAME', 'DESIGNLOGIN']),
       login() {
         let mobileFlag = /^(13|14|15|17|18)[0-9]{9}$/
         if (mobileFlag.test(this.mobile) && this.password.length >= 6 && this.password.length <= 20) {
@@ -40,6 +40,7 @@
             username: '邵卢勤'
           })
           this.TOGGLE_DESIGNERREGISTE_FRAME()
+          this.$router.push('/designeruser/account')
         } else if (!mobileFlag.test(this.mobile)) {
           if (this.mobile === '') {
             alert('请输入手机号')
