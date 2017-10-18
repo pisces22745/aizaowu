@@ -27,6 +27,27 @@ export default new Router({
         name: 'Designer',
         component: () => import('@/pages/designers/designer')
       }, {
+        path: 'designeruser',   // 设计师列表
+        name: 'Designeruser',
+        component: () => import('@/pages/designeruser/user'),
+        children: [{
+          path: 'account',   // 基础资料
+          name: 'DAccount',
+          component: () => import('@/pages/designeruser/information/account')
+        }, {
+          path: 'introduce',   // 基础资料
+          name: 'Introduce',
+          component: () => import('@/pages/designeruser/information/introduce')
+        }, {
+          path: 'security',   // 基础资料
+          name: 'DSecurity',
+          component: () => import('@/pages/designeruser/information/security')
+        }]
+      }, {
+        path: 'bedesigner',   // 设计师列表
+        name: 'Bedesigner',
+        component: () => import('@/pages/designers/bedesigner')
+      }, {
         path: 'user',   // 个人中心
         name: 'User',
         component: () => import('@/pages/user/user'),

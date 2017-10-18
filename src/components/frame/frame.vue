@@ -19,6 +19,9 @@
     transform: translate(-50%, -50%);
     padding: 40px 25px;
     background-color: rgba(255, 255, 255, .9);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.5);
+    -moz-box-shadow:  0 0 10px rgba(0,0,0,.5);
+    box-shadow:  0 0 10px rgba(0,0,0,.5);
     & > i {
       display: block;
       width: 129px;
@@ -54,11 +57,9 @@
       }
     }
     button {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
       padding: 15px 12px;
       font-size: 18px;
+      height: 48px;
       &.comfirm {
         width: 100%;
       }

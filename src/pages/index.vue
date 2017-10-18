@@ -19,6 +19,11 @@
         <forgetpwd></forgetpwd>
       </y-frame>
     </transition>
+    <transition name='fade'>
+      <y-frame v-if="designerLoginFlag">
+        <design-login></design-login>
+      </y-frame>
+    </transition>
   </section>
 </template>
 <script>
@@ -27,6 +32,8 @@
   import login from '@/components/login/login'
   import registe from '@/components/registe/registe'
   import forgetpwd from '@/components/forgetpwd/forgetpwd'
+  import designLogin from '@/components/login/designlogin'
+
   import {mapState, mapMutations} from 'vuex'
 
   export default {
@@ -34,10 +41,10 @@
       return {}
     },
     computed: {
-      ...mapState(['loginFlag', 'registeFlag', 'forgetPwdFlag'])
+      ...mapState(['loginFlag', 'registeFlag', 'forgetPwdFlag','designerLoginFlag'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_FORGETPWD_FRAME']),
+      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_FORGETPWD_FRAME','TOGGLE_DESIGNERREGISTE_FRAME']),
       close() {
         if (this.loginFlag) {
           this.TOGGLE_LOGIN_FRAME()
@@ -48,6 +55,9 @@
         if (this.forgetPwdFlag) {
           this.TOGGLE_FORGETPWD_FRAME()
         }
+        if (this.designerLoginFlag) {
+          this.TOGGLE_DESIGNERREGISTE_FRAME()
+        }
       }
     },
     mounted() {
@@ -57,7 +67,8 @@
       'y-frame': Yframe,
       login,
       registe,
-      forgetpwd
+      forgetpwd,
+      'design-login':designLogin
     }
   }
 </script>

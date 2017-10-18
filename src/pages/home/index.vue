@@ -6,7 +6,7 @@
     <section class="recommend">
       <div class="recommend-header">
         <span>推荐设计师</span>
-        <router-link class="see-more" :to="{path: 'designer'}">查看全部</router-link>
+        <router-link class="see-more" :to="{path: '/designers'}">查看全部</router-link>
       </div>
       <div class="recommend-content">
         <ul class="list clearfix">

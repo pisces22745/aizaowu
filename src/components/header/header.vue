@@ -11,6 +11,7 @@
           <span @mouseenter="childMenuShow(item,$event)" @click="changeType(item,$event)" ref="nav"
                 :class="{active:index===0}">{{item.name}}</span>
         </li>
+        <li @click="TOGGLE_DESIGNERREGISTE_FRAME"><span>设计师中心</span></li>
       </ul>
       <div class="tool">
         <div class="search clearfix">
@@ -129,10 +130,6 @@
             path: '/product',
             search: 'type12'
           }]
-        }, {
-          name: '设计师中心',
-          search: 'designer',
-          path: 'designer'
         }],
         keyWord: '',
         keyWordFlag: false,
@@ -145,7 +142,7 @@
       ...mapState(['loginFlag', 'registeFlag', 'userInfo', 'logined'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME', 'LOGOUT', 'INIT_USER']),
+      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME', 'LOGOUT', 'INIT_USER','TOGGLE_DESIGNERREGISTE_FRAME']),
       changeType(item, e) {
         this.$router.push(item.path)
       },
