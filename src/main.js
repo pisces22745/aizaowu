@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import store from './vuex/store'
-import "babel-polyfill"
 
 import router from './config/router'
 
