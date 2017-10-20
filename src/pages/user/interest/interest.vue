@@ -101,12 +101,6 @@
                 font-size: 16px;
                 i{
                   font-size: 18px;
-                  &.icon-male{
-                    color: #59b9ff;
-                  }
-                  &.icon-female{
-                    color: #ff78a0;
-                  }
                 }
               }
               .signature{
