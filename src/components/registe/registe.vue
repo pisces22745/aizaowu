@@ -19,7 +19,7 @@
 </template>
 <script>
   import {mapState, mapMutations} from 'vuex'
-
+  import {addUser} from '@/config/api'
   export default {
     data() {
       return {
@@ -61,7 +61,12 @@
         }
       },
       registe() {
-
+        addUser({
+          username: this.mobile,
+          passwd: this.password
+        }).then(res=>{
+          console.log(res)
+        })
       }
     }
   }
