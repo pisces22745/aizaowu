@@ -1,7 +1,7 @@
 <template>
   <div id="registe">
     <div class="input-wrapper">
-      <input type="tel" v-model="mobile" placeholder="请输入手机号码">
+      <input type="tel" v-model="email" placeholder="请输入邮箱">
     </div>
     <div class="input-wrapper check-code clearfix">
       <input type="text" v-model="checkCode" class="fl" placeholder="请输入验证码">
@@ -19,11 +19,12 @@
 </template>
 <script>
   import {mapState, mapMutations} from 'vuex'
-  import {addUser} from '@/config/api'
+  import {addUser, sendEmailCode} from '@/config/api'
+
   export default {
     data() {
       return {
-        mobile: '',
+        email: '',
         checkCodeMsg: '获取验证码',
         checkCode: '',
         checkCodeFlag: false,
@@ -37,37 +38,50 @@
       ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME']),
       getCheckCode() {
         if (!this.checkCodeFlag) {
-          let mobileReg = /^(13|14|15|17|18)[0-9]{9}$/
+          let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
           let _this = this
-          if (mobileReg.test(this.mobile)) {
-            let i = 20
-            _this.checkCodeMsg = --i + '秒重新获取'
-            this.checkCodeFlag = true
-            let clock = setInterval(function () {
-              if (i > 1) {
-                i--
-                _this.checkCodeMsg = i < 10 ? '0' + i + '秒重新获取' : i + '秒重新获取'
-              } else {
-                _this.checkCodeMsg = '重新获取'
-                _this.checkCodeFlag = false
-                clearInterval(clock)
-              }
-            }, 1000)
-          } else if (this.mobile === '') {
-            alert('请先输入手机号')
+          if (emailReg.test(this.email)) {
+            sendEmailCode({
+              email: this.email
+            }).then(res => {
+              let i = 20
+              _this.checkCodeMsg = --i + '秒重新获取'
+              this.checkCodeFlag = true
+              let clock = setInterval(function () {
+                if (i > 1) {
+                  i--
+                  _this.checkCodeMsg = i < 10 ? '0' + i + '秒重新获取' : i + '秒重新获取'
+                } else {
+                  _this.checkCodeMsg = '重新获取'
+                  _this.checkCodeFlag = false
+                  clearInterval(clock)
+                }
+              }, 1000)
+            })
+          } else if (this.email === '') {
+            alert('请先输入邮箱')
           } else {
-            alert('手机号格式不正确')
+            alert('邮箱格式不正确')
           }
         }
       },
       registe() {
         addUser({
-          username: this.mobile,
+          email: this.email,
+          code: this.checkCode,
           passwd: this.password
-        }).then(res=>{
-          console.log(res)
+        }).then(res => {
+          if(code===0){
+            this.TOGGLE_REGISTE_FRAME()
+            alert('注册成功')
+          } else {
+            alert(res.msg)
+          }
         })
       }
+    },
+    mounted() {
+
     }
   }
 </script>
