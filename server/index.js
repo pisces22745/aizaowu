@@ -4,12 +4,13 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors({
-  origin:['http://icloudbadguy.xyz:9992'],
-  methods:['GET','POST'],
-  alloweHeaders:['Content-Type', 'Authorization']
+  origin: ['http://icloudbadguy.xyz:9992'],
+  methods: ['GET', 'POST'],
+  alloweHeaders: ['Content-Type', 'Authorization']
 }));
 app.use('/api/user', userApi)
 
