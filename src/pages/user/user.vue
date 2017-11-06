@@ -2,7 +2,7 @@
   <section id="user">
     <div class="container clearfix">
       <div class="sidebar-wrapper fl">
-        <sidebar :username="userInfo.username" :headerImg="userInfo.headerImg"></sidebar>
+        <sidebar :username="userInfo.username" :headerImg="userInfo.headerImg" :menus="menus"></sidebar>
       </div>
       <div class="content fr">
         <router-view></router-view>
@@ -16,7 +16,31 @@
 
   export default {
     data() {
-      return {}
+      return {
+        menus: [{
+          name: '我的账户',
+          to: '/user/account',
+          childMenus: [{
+            name: '基础资料',
+            to: '/user/account'
+          }, {
+            name: '账号安全',
+            to: '/user/security'
+          }, {
+            name: '地址管理',
+            to: '/user/address'
+          }]
+        }, {
+          name: '我的订单',
+          to: '/user/order'
+        }, {
+          name: '我的关注',
+          to: '/user/interest'
+        }, {
+          name: '我的收藏',
+          to: '/user/collection'
+        }]
+      }
     },
     computed: {
       ...mapState(['userInfo'])

@@ -30,19 +30,36 @@ export default new Router({
         path: 'designeruser',   // 设计师列表
         name: 'Designeruser',
         component: () => import('@/pages/designeruser/user'),
+        redirect: '/designeruser/account',
         children: [{
           path: 'account',   // 基础资料
           name: 'DAccount',
           component: () => import('@/pages/designeruser/information/account')
         }, {
-          path: 'introduce',   // 基础资料
+          path: 'introduce',   // 个人简介
           name: 'Introduce',
           component: () => import('@/pages/designeruser/information/introduce')
         }, {
-          path: 'security',   // 基础资料
+          path: 'security',   // 账户安全
           name: 'DSecurity',
           component: () => import('@/pages/designeruser/information/security')
+        }, {
+          path: 'address',   // 账户安全
+          name: 'DAddress',
+          component: () => import('@/pages/designeruser/information/address')
+        }, {
+          path: 'deal',   // 账户安全
+          name: 'Deal',
+          component: () => import('@/pages/designeruser/deal/deal')
+        }, {
+          path: 'fund',   // 账户安全
+          name: 'Fund',
+          component: () => import('@/pages/designeruser/deal/fund')
         }]
+      }, {
+        path: 'workmanage',   // 账户安全
+        name: 'Workmanage',
+        component: () => import('@/pages/workmanage/workmanage')
       }, {
         path: 'bedesigner',   // 设计师列表
         name: 'Bedesigner',
@@ -51,6 +68,7 @@ export default new Router({
         path: 'user',   // 个人中心
         name: 'User',
         component: () => import('@/pages/user/user'),
+        redirect: '/user/account',
         children: [{
           path: 'account',   // 基础资料
           name: 'Account',

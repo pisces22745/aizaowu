@@ -25,33 +25,34 @@
   export default {
     props: {
       headerImg: String,
-      username: String
+      username: String,
+      menus: Array
     },
     data() {
       return {
-        menus: [{
-          name: '我的账户',
-          to: '/user/account',
-          childMenus: [{
-            name: '基础资料',
-            to: '/user/account'
-          }, {
-            name: '账号安全',
-            to: '/user/security'
-          }, {
-            name: '地址管理',
-            to: '/user/address'
-          }]
-        }, {
-          name: '我的订单',
-          to: '/user/order'
-        }, {
-          name: '我的关注',
-          to: '/user/interest'
-        }, {
-          name: '我的收藏',
-          to: '/user/collection'
-        }]
+//        menus: [{
+//          name: '我的账户',
+//          to: '/user/account',
+//          childMenus: [{
+//            name: '基础资料',
+//            to: '/user/account'
+//          }, {
+//            name: '账号安全',
+//            to: '/user/security'
+//          }, {
+//            name: '地址管理',
+//            to: '/user/address'
+//          }]
+//        }, {
+//          name: '我的订单',
+//          to: '/user/order'
+//        }, {
+//          name: '我的关注',
+//          to: '/user/interest'
+//        }, {
+//          name: '我的收藏',
+//          to: '/user/collection'
+//        }]
         //    , {
 //        name: '消息中心',
 //          to: '/user/message'

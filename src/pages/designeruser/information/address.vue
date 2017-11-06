@@ -1,7 +1,7 @@
 <template>
   <section id="account">
     <div class="content-header">
-      <h1>基础资料</h1>
+      <h1>地址管理</h1>
     </div>
     <div class="content-body">
       <div class="input-group">
@@ -39,7 +39,6 @@
         <input type="text" id="mobile">
         <button class="hollow">绑定</button>
       </div>
-      <button class="submit">保存</button>
     </div>
   </section>
 </template>
@@ -104,10 +103,6 @@
             margin-right: 15px;
           }
         }
-      }
-      .submit{
-        margin-left: 93px;
-        padding: 10px 15px;
       }
     }
   }

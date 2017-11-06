@@ -71,7 +71,7 @@
           code: this.checkCode,
           passwd: this.password
         }).then(res => {
-          if(code===0){
+          if(res.code===0){
             this.TOGGLE_REGISTE_FRAME()
             alert('注册成功')
           } else {

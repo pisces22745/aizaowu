@@ -21,14 +21,30 @@ var jsonWrite = function (res, ret) {
 
 // 增加用户接口,注册
 router.post('/addUser', (req, res) => {
-  var sql = $sql.user.addUser
+  var addUserSql = $sql.user.addUser
+  var isUserExistSql = $sql.user.isUserExist
   var params = req.body
-  conn.query(sql, [params.email, params.passwd], function (err, result) {
+  conn.query(isUserExistSql, [params.email], function (err, result) {
     if (err) {
       console.log(err)
     }
     if (result) {
-      jsonWrite(res, result)
+      var temp = JSON.stringify(result)
+      console.log(temp.length)
+      if (temp.length > 0) {
+        jsonWrite(res, {code: 1, msg: '该邮箱已注册', data: {}})
+      } else {
+        if (params.code === '123456') {
+          conn.query(addUserSql, [params.email, params.passwd], function (err, result) {
+            if (err) {
+              console.log(err)
+            }
+            if (result) {
+              jsonWrite(res, {code: 0, msg: '添加成功', data: {}})
+            }
+          })
+        }
+      }
     }
   })
 })
