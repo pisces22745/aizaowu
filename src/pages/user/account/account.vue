@@ -1,7 +1,7 @@
 <template>
   <section id="account">
     <div class="content-header">
-      <h1>地址管理</h1>
+      <h1>基础资料</h1>
     </div>
     <div class="content-body">
       <div class="input-group">
@@ -10,24 +10,19 @@
       </div>
       <div class="input-group">
         <label>性别</label>
-        <div class="radio-wrapper male">
-          <input type="radio" name="sex" value="0" selected>
-        </div>
-        <div class="radio-wrapper female">
-          <input type="radio" name="sex" value="1">
+        <div class="radio-wrapper">
+          <el-radio v-model="sex" label="1">男</el-radio>
+          <el-radio v-model="sex" label="0">女</el-radio>
         </div>
       </div>
       <div class="input-group">
         <label for="nickname">生日</label>
-        <div class="select-wrapper year">
-          <input type="text">
-        </div>
-        <div class="select-wrapper month">
-          <input type="text">
-        </div>
-        <div class="select-wrapper day">
-          <input type="text">
-        </div>
+        <el-date-picker
+          v-model="birthday"
+          type="date"
+          placeholder="请选择出生日期"
+          :picker-options="pickerOptions">
+        </el-date-picker>
       </div>
       <div class="input-group">
         <label for="email">邮箱</label>
@@ -39,20 +34,28 @@
         <input type="text" id="mobile">
         <button class="hollow">绑定</button>
       </div>
+      <div class="input-group">
+        <label></label>
+        <button class="submit">保存</button>
+      </div>
     </div>
   </section>
 </template>
 <script>
-  import y_date from '@/components/select/select'
-
   export default {
     data() {
       return {
-        years: [1900, 1901]
+        birthday: '',
+        sex: '',
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          }
+        }
       }
     },
-    components: {
-      'y-date': y_date
+    mounted() {
+
     }
   }
 </script>
@@ -60,50 +63,8 @@
 <style scoped lang="less">
   #account {
     padding: 30px 50px;
-    .content-body {
-      .input-group {
-        .radio-wrapper {
-          &::before {
-            margin-right: 5px;
-            font-size: 16px;
-          }
-          &.female {
-            &::before {
-              content: '女';
-            }
-          }
-          &.male {
-            &::before {
-              content: '男';
-            }
-          }
-        }
-        .select-wrapper {
-          display: inline-block;
-          &::after {
-            margin-right: 15px;
-          }
-          &.year {
-            &::after {
-              content: '年';
-            }
-          }
-          &.month {
-            &::after {
-              content: '月';
-            }
-          }
-          &.day {
-            &::after {
-              content: '日';
-            }
-          }
-          input {
-            width: 100px;
-            margin-right: 15px;
-          }
-        }
-      }
+    button.submit {
+      padding: 8px 10px;
     }
   }
 </style>

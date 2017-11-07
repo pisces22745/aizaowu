@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <div class="input-wrapper">
-      <input type="tel" v-model="mobile" placeholder="请输入手机号码">
+      <input type="tel" v-model="email" placeholder="请输入邮箱">
     </div>
     <div class="input-wrapper">
       <input type="password" v-model="password" placeholder="请输入密码">
@@ -25,11 +25,12 @@
 </template>
 <script>
   import {mapState, mapMutations} from 'vuex'
+  import {login} from '@/config/api'
 
   export default {
     data() {
       return {
-        mobile: '',
+        email: '',
         password: ''
       }
     },
@@ -39,18 +40,28 @@
     methods: {
       ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME', 'LOGIN']),
       login() {
-        let mobileFlag = /^(13|14|15|17|18)[0-9]{9}$/
-        if (mobileFlag.test(this.mobile) && this.password.length >= 6 && this.password.length <= 20) {
-          this.LOGIN({
-            headerImg: 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg',
-            username: '邵卢勤'
+        let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+        if (emailReg.test(this.email) && this.password.length >= 6 && this.password.length <= 20) {
+          login({
+            email: this.email,
+            pwd: this.password
+          }).then(res => {
+            if (res.code === 0) {
+              this.LOGIN({
+                headerImg: 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg',
+                username: '邵卢勤'
+              })
+              this.TOGGLE_LOGIN_FRAME()
+            } else {
+              alert(res.msg)
+            }
           })
-          this.TOGGLE_LOGIN_FRAME()
-        } else if (!mobileFlag.test(this.mobile)) {
-          if (this.mobile === '') {
-            alert('请输入手机号')
+
+        } else if (!emailReg.test(this.email)) {
+          if (this.email === '') {
+            alert('请输入邮箱')
           } else {
-            alert('手机号格式错误')
+            alert('邮箱格式错误')
           }
         } else {
           alert('密码必须大于等于6位小于20位')

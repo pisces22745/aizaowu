@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 // () => import('vue的文件文职');
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',   // 首页

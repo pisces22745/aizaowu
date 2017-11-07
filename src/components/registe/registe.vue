@@ -59,9 +59,15 @@
               }, 1000)
             })
           } else if (this.email === '') {
-            alert('请先输入邮箱')
+            this.$message({
+              message: '请先输入邮箱',
+              type: 'warning'
+            })
           } else {
-            alert('邮箱格式不正确')
+            this.$message({
+              message: '邮箱格式不正确',
+              type: 'warning'
+            })
           }
         }
       },
@@ -74,17 +80,32 @@
           }).then(res => {
             if (res.code === 0) {
               this.TOGGLE_REGISTE_FRAME()
-              alert('注册成功')
+              this.$message({
+                message: '注册成功',
+                type: 'success'
+              })
             } else {
-              alert(res.msg)
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
             }
           })
         } else if (this.email === '') {
-          alert('请输入邮箱')
+          this.$message({
+            message: '请输入邮箱',
+            type: 'warning'
+          })
         } else if (this.checkCode === '') {
-          alert('请输入验证码')
+          this.$message({
+            message: '请输入验证码',
+            type: 'warning'
+          })
         } else {
-          alert('请输入密码')
+          this.$message({
+            message: '请输入密码',
+            type: 'warning'
+          })
         }
       }
     },

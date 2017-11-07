@@ -39,7 +39,15 @@ router.post('/addUser', (req, res) => {
               console.log(err)
             }
             if (result) {
-              jsonWrite(res, {code: 0, msg: '添加成功', data: {}})
+              conn.query(isUserExistSql, [params.email], function (err, result) {
+                if (err) {
+                  console.log(err)
+                }
+                if (result) {
+                  let temp = JSON.parse(JSON.stringify(result))[0]
+                  jsonWrite(res, {code: 1, msg: '添加成功', data: {id: temp.id}})
+                }
+              })
             }
           })
           res.clearCookie(params.email)
@@ -50,6 +58,7 @@ router.post('/addUser', (req, res) => {
     }
   })
 })
+// 发送邮箱验证码
 router.post('/sendEmailCode', (req, res) => {
   var code = Math.random().toString(36).substring(3, 7)
   var params = req.body
@@ -58,6 +67,26 @@ router.post('/sendEmailCode', (req, res) => {
     jsonWrite(res, {code: 0, msg: '发送成功', data: {}})
   }, function () {
     jsonWrite(res)
+  })
+})
+// 登录
+router.post('/login', (req, res) => {
+  var params = req.body
+  var isUserExistSql = $sql.user.isUserExist
+  conn.query(isUserExistSql, [params.email], function (err, result) {
+    if (err) {
+      console.log(err)
+    }
+    if (result) {
+      let temp = JSON.parse(JSON.stringify(result))[0]
+      if (temp.passwd === params.pwd) {
+        jsonWrite(res, {code: 0, msg: '登录成功', data: {}})
+      } else {
+        jsonWrite(res, {code: 1, msg: '密码错误', data: {}})
+      }
+    } else {
+      jsonWrite(res, {code: 1, msg: '用户名不存在', data: {}})
+    }
   })
 })
 module.exports = router
