@@ -19,7 +19,7 @@ switch (process.env.NODE_ENV) {
     assetsPublicPath = config.testlocal.assetsPublicPath
     break
   default:
-    assetsPublicPath = config.start.assetsPublicPath
+    assetsPublicPath = config.dev.assetsPublicPath
     break
 }
 module.exports = {

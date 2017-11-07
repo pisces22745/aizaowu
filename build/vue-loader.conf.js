@@ -6,7 +6,7 @@ module.exports = {
   loaders: utils.cssLoaders({
     sourceMap: isProduction
       ? config.build.productionSourceMap
-      : config.start.cssSourceMap,
+      : config.dev.cssSourceMap,
     extract: isProduction
   }),
   transformToRequire: {

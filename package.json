@@ -5,8 +5,7 @@
   "author": "shaoluqin",
   "private": true,
   "scripts": {
-    "start": "node build/dev-start.js",
-    "dev": "node build/build-dev.js",
+    "dev": "node build/dev-start.js",
     "testlocal": "node build/build-testlocal.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
