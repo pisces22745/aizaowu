@@ -1,58 +1,32 @@
 <template>
   <section id="account">
     <div class="content-header">
-      <h1>地址管理</h1>
+      <h1>个人简介</h1>
     </div>
     <div class="content-body">
       <div class="input-group">
-        <label for="nickname">昵称</label>
-        <input type="text" id="nickname">
-      </div>
-      <div class="input-group">
-        <label>性别</label>
-        <div class="radio-wrapper male">
-          <input type="radio" name="sex" value="0" selected>
-        </div>
-        <div class="radio-wrapper female">
-          <input type="radio" name="sex" value="1">
+        <label for="type">申请类别</label>
+        <div class="type" id="type">
+          <div class="type-item photo"><input name="leibie" class="genre" type="radio" value=""/></div>
+          <div class="type-item font"><input name="leibie" class="genre" type="radio" value="" checked/></div>
+          <div class="type-item art"><input name="leibie" class="genre" type="radio" value=""/></div>
         </div>
       </div>
-      <div class="input-group">
-        <label for="nickname">生日</label>
-        <div class="select-wrapper year">
-          <input type="text">
-        </div>
-        <div class="select-wrapper month">
-          <input type="text">
-        </div>
-        <div class="select-wrapper day">
-          <input type="text">
-        </div>
+      <div class="input-textarea">
+        <label for="introduce">个人介绍</label>
+        <input name="introduction" id="introduce" class="introduce" type="textarea"/>
+
       </div>
-      <div class="input-group">
-        <label for="email">邮箱</label>
-        <input type="text" id="email">
-        <button class="hollow">绑定</button>
-      </div>
-      <div class="input-group">
-        <label for="mobile">手机</label>
-        <input type="text" id="mobile">
-        <button class="hollow">绑定</button>
+      <div class="save">
+        <button class="">保存</button>
       </div>
     </div>
   </section>
 </template>
 <script>
-  import y_date from '@/components/select/select'
-
   export default {
     data() {
-      return {
-        years: [1900, 1901]
-      }
-    },
-    components: {
-      'y-date': y_date
+      return {}
     }
   }
 </script>
@@ -62,47 +36,44 @@
     padding: 30px 50px;
     .content-body {
       .input-group {
-        .radio-wrapper {
-          &::before {
-            margin-right: 5px;
-            font-size: 16px;
-          }
-          &.female {
-            &::before {
-              content: '女';
-            }
-          }
-          &.male {
-            &::before {
-              content: '男';
-            }
-          }
-        }
-        .select-wrapper {
+        .type {
           display: inline-block;
-          &::after {
-            margin-right: 15px;
-          }
-          &.year {
-            &::after {
-              content: '年';
+          vertical-align: top;
+          .type-item {
+            padding: 0 0 10px;
+            vertical-align: top;
+            &.photo {
+              &::after {
+                content: '手绘插画';
+              }
             }
-          }
-          &.month {
-            &::after {
-              content: '月';
+            &.font {
+              &::after {
+                content: '字体设计';
+              }
             }
-          }
-          &.day {
-            &::after {
-              content: '日';
+            &.art {
+              &::after {
+                content: '手工艺品';
+              }
             }
-          }
-          input {
-            width: 100px;
-            margin-right: 15px;
           }
         }
+      }
+      .input-group .genre {
+        vertical-align: middle;
+        height: auto;
+      }
+      .input-textarea .introduce {
+        width: 70%;
+        height: 150px;
+        vertical-align: top;
+        margin-left: 30px;
+      }
+      button {
+        padding: 10px 15px;
+        margin-left: 90px;
+        margin-top: 21px;
       }
     }
   }

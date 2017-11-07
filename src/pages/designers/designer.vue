@@ -34,8 +34,6 @@
   </section>
 </template>
 <script>
-  import axios from 'axios'
-
   export default {
     data() {
       return {
@@ -98,6 +96,15 @@
       }
       .name {
         font-size: 18px;
+      }
+      .works {
+        width:1000px;
+      }
+      .fl{
+        width:200px;
+        height:200px;
+        margin-right:50px;
+        margin-bottom:60px;
       }
     }
   }
