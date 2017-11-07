@@ -66,18 +66,26 @@
         }
       },
       registe() {
-        addUser({
-          email: this.email,
-          code: this.checkCode,
-          passwd: this.password
-        }).then(res => {
-          if(res.code===0){
-            this.TOGGLE_REGISTE_FRAME()
-            alert('注册成功')
-          } else {
-            alert(res.msg)
-          }
-        })
+        if (this.email !== '' && this.checkCode !== '' && this.password !== '') {
+          addUser({
+            email: this.email,
+            code: this.checkCode,
+            passwd: this.password
+          }).then(res => {
+            if (res.code === 0) {
+              this.TOGGLE_REGISTE_FRAME()
+              alert('注册成功')
+            } else {
+              alert(res.msg)
+            }
+          })
+        } else if (this.email === '') {
+          alert('请输入邮箱')
+        } else if (this.checkCode === '') {
+          alert('请输入验证码')
+        } else {
+          alert('请输入密码')
+        }
       }
     },
     mounted() {

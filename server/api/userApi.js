@@ -1,8 +1,6 @@
 var models = require('../db')
 var express = require('express')
-var app = express()
-var cookieParser = require('cookie-parser')
-app.use(cookieParser())
+
 var router = express.Router()
 var mysql = require('mysql')
 var $sql = require('../sqlMap')
@@ -24,8 +22,6 @@ var jsonWrite = function (res, ret) {
 
 // 增加用户接口,注册
 router.post('/addUser', (req, res) => {
-  console.log(req.cookies)
-  console.log(res.cookies)
   var addUserSql = $sql.user.addUser
   var isUserExistSql = $sql.user.isUserExist
   var params = req.body
@@ -37,7 +33,7 @@ router.post('/addUser', (req, res) => {
       if (result.length > 0) {
         jsonWrite(res, {code: 1, msg: '该邮箱已注册', data: {}})
       } else {
-        if (params.code === '123456') {
+        if (params.code === req.cookies[params.email]) {
           conn.query(addUserSql, [params.email, params.passwd], function (err, result) {
             if (err) {
               console.log(err)
@@ -46,6 +42,7 @@ router.post('/addUser', (req, res) => {
               jsonWrite(res, {code: 0, msg: '添加成功', data: {}})
             }
           })
+          res.clearCookie(params.email)
         } else {
           jsonWrite(res, {code: 1, msg: '验证码不正确', data: {}})
         }
@@ -56,6 +53,7 @@ router.post('/addUser', (req, res) => {
 router.post('/sendEmailCode', (req, res) => {
   var code = Math.random().toString(36).substring(3, 7)
   var params = req.body
+  res.cookie(params.email, code)
   sendMail(params.email, '爱造物验证码', 'Hi~您的注册验证码是' + code, function () {
     jsonWrite(res, {code: 0, msg: '发送成功', data: {}})
   }, function () {
