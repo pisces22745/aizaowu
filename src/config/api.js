@@ -7,7 +7,7 @@ let qs = require('qs')
 let base = process.env.API_ROOT
 // 添加用户
 export const addUser = params => {
-    return axios.post(`${base}/api/user/addUser`, qs.stringify(params)).then(res => res.data);
+  return axios.post(`${base}/api/user/addUser`, qs.stringify(params)).then(res => res.data);
 }
 
 // 发送验证码
@@ -22,5 +22,11 @@ export const login = params => {
 
 // 获取基础资料
 export const getBaseInfo = params => {
-  return axios.post(`${base}/api/user/getBaseInfo`, qs.stringify(params)).then(res => res.data);
+  return axios.get(`${base}/api/user/getBaseInfo`, {params: params}).then(res => res.data);
 }
+// 设置基础资料
+export const setBaseInfo = params => {
+  return axios.post(`${base}/api/user/setBaseInfo`, params).then(res => res.data);
+}
+
+

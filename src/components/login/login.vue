@@ -47,24 +47,41 @@
             pwd: this.password
           }).then(res => {
             if (res.code === 0) {
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
               this.LOGIN({
                 headerImg: 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg',
-                username: '邵卢勤'
+                username: '邵卢勤',
+                id: 1
               })
               this.TOGGLE_LOGIN_FRAME()
             } else {
-              alert(res.msg)
+              this.$message({
+                message: res.msg,
+                type: 'warning'
+              })
             }
           })
 
         } else if (!emailReg.test(this.email)) {
           if (this.email === '') {
-            alert('请输入邮箱')
+            this.$message({
+              message: '请输入邮箱',
+              type: 'warning'
+            })
           } else {
-            alert('邮箱格式错误')
+            this.$message({
+              message: '邮箱格式错误',
+              type: 'warning'
+            })
           }
         } else {
-          alert('密码必须大于等于6位小于20位')
+          this.$message({
+            message: '密码必须大于等于6位小于20位',
+            type: 'warning'
+          })
         }
       }
     }

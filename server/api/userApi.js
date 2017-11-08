@@ -45,7 +45,11 @@ router.post('/addUser', (req, res) => {
                 }
                 if (result) {
                   let temp = JSON.parse(JSON.stringify(result))[0]
-                  jsonWrite(res, {code: 1, msg: '添加成功', data: {id: temp.id}})
+                  jsonWrite(res, {
+                    code: 0,
+                    msg: '添加成功',
+                    data: {id: temp.id, headerImg: temp.headimg, username: temp.user_name}
+                  })
                 }
               })
             }
@@ -77,13 +81,85 @@ router.post('/login', (req, res) => {
     if (err) {
       console.log(err)
     }
-    if (result) {
+    if (result && result.length) {
       let temp = JSON.parse(JSON.stringify(result))[0]
       if (temp.passwd === params.pwd) {
         jsonWrite(res, {code: 0, msg: '登录成功', data: {}})
       } else {
         jsonWrite(res, {code: 1, msg: '密码错误', data: {}})
       }
+    } else {
+      jsonWrite(res, {code: 1, msg: '用户名不存在', data: {}})
+    }
+  })
+})
+// 图片上传
+router.post('/uploadHeadImage', (req, res) => {
+  var params = req.body
+  var updateHeadImageById = $sql.user.updateHeadImageById
+  var imgData = req.body
+  console.log(req)
+  // 过滤data:URL
+  // var base64Data = imgData.replace(/^data:image\/\w+;base64,/, ' ')
+  // var dataBuffer = new Buffer(base64Data, 'base64')
+  // var time = new Date().getTime()
+  // if (!fs.existsSync(__dirname + '/images/')) {
+  //   fs.mkdirSync(__dirname + '/images/');
+  // }
+  // if (!fs.existsSync(__dirname + '/images/upload/')) {
+  //   fs.mkdirSync(__dirname + '/images/upload/');
+  // }
+  // fs.writeFile(__dirname + '/images/upload/' + time + '.png', dataBuffer, function (err) {
+  //   if (err) {
+  //     res.send(err)
+  //   } else {
+  //     res.send({ code: 1, ms: '保存成功', data: 'http://' + getIp() + ':3000/upload/' + time + '.png'})
+  //   }
+  // })
+  // conn.query(updateHeadImageById, [params.id], function (err, result) {
+  //   if (err) {
+  //     console.log(err)
+  //   }
+  //   if (result && result.length) {
+  //     let temp = JSON.parse(JSON.stringify(result))[0]
+  //     if (temp.passwd === params.pwd) {
+  //       jsonWrite(res, {code: 0, msg: '登录成功', data: {}})
+  //     } else {
+  //       jsonWrite(res, {code: 1, msg: '密码错误', data: {}})
+  //     }
+  //   } else {
+  //     jsonWrite(res, {code: 1, msg: '用户名不存在', data: {}})
+  //   }
+  // })
+})
+// 修改基础资料
+router.post('/setBaseInfo', (req, res) => {
+  var params = req.body
+  var setBaseInfo = $sql.user.setBaseInfo
+  console.log(params)
+  conn.query(setBaseInfo, [params.nickname, params.birthday, params.sex, params.email, params.mobile, params.id], function (err, result) {
+    if (err) {
+      console.log(err)
+    }
+    if (result) {
+      console.log(result)
+      jsonWrite(res, {code: 0, msg: '修改成功', data: {}})
+    } else {
+      jsonWrite(res, {code: 1, msg: '系统错误', data: {}})
+    }
+  })
+})
+// 获取基础资料
+router.get('/getBaseInfo', (req, res) => {
+  var params = req.query
+  var getBaseInfo = $sql.user.getBaseInfo
+  conn.query(getBaseInfo, [params.id], function (err, result) {
+    if (err) {
+      console.log(err)
+    }
+    if (result && result.length) {
+      let temp = JSON.parse(JSON.stringify(result))[0]
+      jsonWrite(res, {code: 0, msg: '登录成功', data: temp})
     } else {
       jsonWrite(res, {code: 1, msg: '用户名不存在', data: {}})
     }

@@ -2,8 +2,24 @@
   <div class="sidebar">
     <div class="sidebar-header">
       <div class="header-img">
-        <img :src="headerImg" alt="头像">
-        <i class="iconfont icon-camera"></i>
+        <el-upload
+          class="avatar-uploader"
+          action="/api/user/uploadHeadImage"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="headerImg" :src="'http://icloudbadguy.xyz:9992/uploadImage/'+headerImg" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+        <!--<el-upload-->
+        <!--class=""-->
+        <!--action="http://icloudbadguy.xyz:9992/uploadImage"-->
+        <!--:show-file-list="false"-->
+        <!--:on-success="handleAvatarSuccess"-->
+        <!--:before-upload="beforeAvatarUpload">-->
+        <!--<img v-if="headerImg" :src="headerImg" class="avatar">-->
+        <!--<i v-if="!headerImg" class="iconfont icon-camera"></i>-->
+        <!--</el-upload>-->
       </div>
       <span>{{username}}</span>
     </div>
@@ -30,42 +46,41 @@
     },
     data() {
       return {
-//        menus: [{
-//          name: '我的账户',
-//          to: '/user/account',
-//          childMenus: [{
-//            name: '基础资料',
-//            to: '/user/account'
-//          }, {
-//            name: '账号安全',
-//            to: '/user/security'
-//          }, {
-//            name: '地址管理',
-//            to: '/user/address'
-//          }]
-//        }, {
-//          name: '我的订单',
-//          to: '/user/order'
-//        }, {
-//          name: '我的关注',
-//          to: '/user/interest'
-//        }, {
-//          name: '我的收藏',
-//          to: '/user/collection'
-//        }]
-        //    , {
-//        name: '消息中心',
-//          to: '/user/message'
-//      }
+        imageUrl: ''
+      }
+    },
+    computed: {
+      action() {
+        return '/uploadImage'
       }
     },
     methods: {
       showChild() {
         console.log(44)
+      },
+      handleAvatarSuccess(res, file) {
+        this.headerImg = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        console.log(file)
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
       }
     }
   }
 </script>
+<style>
+  .avatar-uploader .el-upload {
+    height: 100%;
+  }
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
   .sidebar {
@@ -139,4 +154,8 @@
       }
     }
   }
+  .avatar-uploader{
+    height: 100%;
+  }
+
 </style>

@@ -1,4 +1,5 @@
 import {setStore, getStore, removeStore, setSessionStore, removeSessionStore} from '@/common/storage'
+
 export default {
   INIT_USER(state) {
     let userInfo = getStore('userInfo')
@@ -31,11 +32,12 @@ export default {
     state.forgetPwdFlag = false
     state.designerLoginFlag = !state.designerLoginFlag
   },
-  LOGIN(state, {headerImg, username}) {
+  LOGIN(state, {id, username, headerImg}) {
     state.logined = true
     state.userInfo = {
       headerImg: headerImg,
-      username: username
+      username: username,
+      id: id
     }
     setStore('userInfo', state.userInfo)
   },

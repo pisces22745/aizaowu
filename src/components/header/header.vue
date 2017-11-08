@@ -21,7 +21,7 @@
           <i class="fr iconfont icon-magnifier" @click="keyWordFlag = !keyWordFlag"></i>
         </div>
         <div class="user" v-if="logined" @mouseenter="userMenuFlag=true">
-          <img :src="userInfo.headerImg" alt="头像">
+          <img :src="'http://icloudbadguy.xyz:9992/uploadImage/'+userInfo.headerImg" alt="头像">
         </div>
         <div class="login-registe" v-if="!logined">
           <span @click="TOGGLE_LOGIN_FRAME">登陆</span>

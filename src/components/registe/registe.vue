@@ -20,6 +20,7 @@
 <script>
   import {mapState, mapMutations} from 'vuex'
   import {addUser, sendEmailCode} from '@/config/api'
+  import {setStore} from '@/common/storage'
 
   export default {
     data() {
@@ -35,7 +36,7 @@
       ...mapState(['registeFlag', 'loginFlag', 'forgetPwdFlag'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME']),
+      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME', 'LOGIN']),
       getCheckCode() {
         if (!this.checkCodeFlag) {
           let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
@@ -84,6 +85,11 @@
                 message: '注册成功',
                 type: 'success'
               })
+              let _this = this
+              setTimeout(function () {
+                _this.LOGIN(res.data)
+                _this.$router.push('/user/account')
+              }, 2000)
             } else {
               this.$message({
                 message: res.msg,
