@@ -11,8 +11,8 @@
       <div class="input-group">
         <label>性别</label>
         <div class="radio-wrapper">
-          <el-radio v-model="sex" label="1">男</el-radio>
-          <el-radio v-model="sex" label="0">女</el-radio>
+          <el-radio v-model="sex" label="0">男</el-radio>
+          <el-radio v-model="sex" label="1">女</el-radio>
         </div>
       </div>
       <div class="input-group">
@@ -21,19 +21,21 @@
           v-model="birthday"
           type="date"
           placeholder="请选择出生日期"
+          format="yyyy 年 MM 月 dd 日"
+          value-format="yyyy-MM-dd"
           :picker-options="pickerOptions">
         </el-date-picker>
       </div>
       <div class="input-group">
         <label for="email">邮箱</label>
         <input type="text" id="email" v-model="email">
-        <!--<button class="hollow">绑定</button>-->
+        <button class="hollow" @click="bindEmail">绑定</button>
       </div>
-      <div class="input-group">
-        <label for="mobile">手机</label>
-        <input type="text" id="mobile" v-model="mobile">
-        <!--<button class="hollow">绑定</button>-->
-      </div>
+      <!--<div class="input-group">-->
+      <!--<label for="mobile">手机</label>-->
+      <!--<input type="text" id="mobile" v-model="mobile">-->
+      <!--<button class="hollow">绑定</button>-->
+      <!--</div>-->
       <div class="input-group">
         <label></label>
         <button class="submit" @click="submit">保存</button>
@@ -42,8 +44,8 @@
   </section>
 </template>
 <script>
-  import {getBaseInfo, setBaseInfo} from '@/config/api'
-  import {mapState} from 'vuex'
+  import {getBaseInfo, setBaseInfo, sendEmailCode, bindEmail} from '@/config/api'
+  import {mapState, mapMutations} from 'vuex'
 
   export default {
     data() {
@@ -66,8 +68,9 @@
       ...mapState(['userInfo'])
     },
     methods: {
+      ...mapMutations(['SET_USERINFO', 'GET_USERINFO']),
       submit() {
-        if (this.nick_name !== this.baseInfo.nick_name || this.birthday !== this.baseInfo.birthday || this.sex !== this.baseInfo.sex || this.email !== this.baseInfo.email || this.mobile !== this.baseInfo.mobile) {
+        if (this.nick_name !== this.baseInfo.nick_name || this.birthday !== this.baseInfo.birthday || this.sex !== this.baseInfo.sex) {
           setBaseInfo({
             nick_name: this.nick_name,
             birthday: this.birthday,
@@ -77,6 +80,8 @@
             id: this.userInfo.id
           }).then(res => {
             if (res.code === 0) {
+              this.SET_USERINFO({user_name: this.nick_name})
+//              this.GET_USERINFO()
               this.$message({
                 message: res.msg,
                 type: 'success'
@@ -94,16 +99,72 @@
             type: 'warning'
           })
         }
+      },
+      bindEmail() {
+        if (this.email && this.email !== '' && this.email !== this.baseInfo.email) {
+          sendEmailCode({
+            email: this.email
+          }).then(res => {
+            if (res.code === 0) {
+              this.$prompt('请输入验证码', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                inputPattern: /^[a-zA-Z0-9]{4}$/,
+                inputErrorMessage: '验证码格式不正确'
+              }).then(({value}) => {
+                bindEmail({
+                  id: this.userInfo.id,
+                  email: this.email,
+                  code: value
+                }).then(res => {
+                  if (res.code === 0) {
+                    this.$message({
+                      type: 'success',
+                      message: '绑定成功'
+                    })
+                  } else {
+                    this.$message({
+                      type: 'error',
+                      message: res.msg
+                    })
+                  }
+                })
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '取消绑定'
+                })
+              })
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.msg
+              })
+            }
+          })
+        } else {
+          this.$message({
+            type: 'warning',
+            message: '请更改邮箱'
+          })
+        }
       }
     },
     mounted() {
       getBaseInfo({id: this.userInfo.id}).then(res => {
-        this.baseInfo = res.data
-        this.nick_name = this.baseInfo.nick_name
-        this.birthday = this.baseInfo.birthday
-        this.sex = this.baseInfo.sex
-        this.email = this.baseInfo.email
-        this.mobile = this.baseInfo.mobile
+        if (res.code === 0) {
+          this.baseInfo = res.data
+          this.nick_name = this.baseInfo.nick_name
+          this.birthday = this.baseInfo.birthday
+          this.sex = this.baseInfo.sex + ''
+          this.email = this.baseInfo.email
+          this.mobile = this.baseInfo.mobile
+        } else {
+          this.$message({
+            type: 'error',
+            message: res.msg
+          })
+        }
       })
     }
   }

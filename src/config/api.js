@@ -28,5 +28,8 @@ export const getBaseInfo = params => {
 export const setBaseInfo = params => {
   return axios.post(`${base}/api/user/setBaseInfo`, params).then(res => res.data);
 }
-
+// 绑定邮箱
+export const bindEmail = params => {
+  return axios.post(`${base}/api/user/bindEmail`, params).then(res => res.data);
+}
 

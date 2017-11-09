@@ -84,7 +84,7 @@ router.post('/login', (req, res) => {
     if (result && result.length) {
       let temp = JSON.parse(JSON.stringify(result))[0]
       if (temp.passwd === params.pwd) {
-        jsonWrite(res, {code: 0, msg: '登录成功', data: {}})
+        jsonWrite(res, {code: 0, msg: '登录成功', data: temp})
       } else {
         jsonWrite(res, {code: 1, msg: '密码错误', data: {}})
       }
@@ -136,13 +136,12 @@ router.post('/uploadHeadImage', (req, res) => {
 router.post('/setBaseInfo', (req, res) => {
   var params = req.body
   var setBaseInfo = $sql.user.setBaseInfo
-  console.log(params)
-  conn.query(setBaseInfo, [params.nickname, params.birthday, params.sex, params.email, params.mobile, params.id], function (err, result) {
+  params.sex = !params.sex ? 0 : params.sex
+  conn.query(setBaseInfo, [params.nick_name, params.sex, params.birthday, params.id], function (err, result) {
     if (err) {
       console.log(err)
     }
     if (result) {
-      console.log(result)
       jsonWrite(res, {code: 0, msg: '修改成功', data: {}})
     } else {
       jsonWrite(res, {code: 1, msg: '系统错误', data: {}})
@@ -162,6 +161,38 @@ router.get('/getBaseInfo', (req, res) => {
       jsonWrite(res, {code: 0, msg: '登录成功', data: temp})
     } else {
       jsonWrite(res, {code: 1, msg: '用户名不存在', data: {}})
+    }
+  })
+})
+// 绑定邮箱
+router.post('/bindEmail', (req, res) => {
+  var params = req.body
+  var bindEmail = $sql.user.bindEmail
+  var isUserExistSql = $sql.user.isUserExist
+  conn.query(isUserExistSql, [params.email], function (err, result) {
+    if (err) {
+      console.log(err)
+    }
+    if (result) {
+      if (result.length > 0) {
+        jsonWrite(res, {code: 1, msg: '该邮箱已被绑定', data: {}})
+      } else {
+        if (params.code === req.cookies[params.email]) {
+          conn.query(bindEmail, [params.email, params.id], function (err, result) {
+            if (err) {
+              console.log(err)
+            }
+            if (result) {
+              jsonWrite(res, {code: 0, msg: '修改成功', data: {}})
+            } else {
+              jsonWrite(res, {code: 1, msg: '修改失败', data: {}})
+            }
+          })
+          res.clearCookie(params.email)
+        } else {
+          jsonWrite(res, {code: 1, msg: '验证码错误', data: {}})
+        }
+      }
     }
   })
 })

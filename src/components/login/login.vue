@@ -52,9 +52,9 @@
                 type: 'success'
               })
               this.LOGIN({
-                headerImg: 'http://c11.eoemarket.com/app0/449/449714/screen/2339617.jpg',
-                username: '邵卢勤',
-                id: 1
+                headerImg: 'default.jpg',
+                user_name: res.user_name,
+                id: 14
               })
               this.TOGGLE_LOGIN_FRAME()
             } else {

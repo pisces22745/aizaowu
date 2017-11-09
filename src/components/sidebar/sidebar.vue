@@ -73,6 +73,8 @@
         }
         return isJPG && isLt2M;
       }
+    },
+    mounted(){
     }
   }
 </script>

@@ -39,7 +39,7 @@
     <transition name='fade'>
       <div class="user-menu-wrapper" v-if="userMenuFlag" @mouseleave="userMenuFlag=false">
         <ul class="user-menu">
-          <li>{{userInfo.username}}</li>
+          <li>{{userInfo.user_name}}</li>
           <li>
             <router-link :to="{path: '/user/account'}">个人中心</router-link>
           </li>

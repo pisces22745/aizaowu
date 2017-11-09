@@ -8,6 +8,16 @@ export default {
       state.logined = true
     }
   },
+  SET_USERINFO(state, {user_name, headerImg, id}) {
+    setStore('userInfo', JSON.stringify({
+      user_name: user_name ? user_name : state.userInfo.user_name,
+      headerImg: headerImg ? headerImg : state.userInfo.headerImg,
+      id: id ? id : state.userInfo.id
+    }))
+  },
+  GET_USERINFO(state) {
+    state.userInfo = getStore('userInfo')
+  },
   TOGGLE_LOGIN_FRAME(state) {
     state.registeFlag = false
     state.forgetPwdFlag = false

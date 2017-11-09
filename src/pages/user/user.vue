@@ -2,7 +2,7 @@
   <section id="user">
     <div class="container clearfix">
       <div class="sidebar-wrapper fl">
-        <sidebar :username="userInfo.username" :headerImg="userInfo.headerImg" :menus="menus"></sidebar>
+        <sidebar :username="userInfo.user_name" :headerImg="userInfo.headerImg" :menus="menus"></sidebar>
       </div>
       <div class="content fr">
         <router-view></router-view>
@@ -46,6 +46,7 @@
       ...mapState(['userInfo'])
     },
     mounted() {
+      console.log(this.userInfo)
     },
     components: {
       sidebar
