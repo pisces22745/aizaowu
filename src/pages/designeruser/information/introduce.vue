@@ -14,8 +14,8 @@
       </div>
       <div class="input-textarea">
         <label for="introduce">个人介绍</label>
-        <input name="introduction" id="introduce" class="introduce" type="textarea"/>
-
+        <!--<input name="introduction" id="introduce" row="6" class="introduce" type="textarea"/>-->
+        <textarea name="introduce" id="introduce" rows="10" class="introduce"></textarea>
       </div>
       <div class="save">
         <button class="">保存</button>
@@ -66,9 +66,9 @@
       }
       .input-textarea .introduce {
         width: 70%;
-        height: 150px;
         vertical-align: top;
         margin-left: 30px;
+        padding: 10px;
       }
       button {
         padding: 10px 15px;

@@ -1,58 +1,39 @@
 <template>
   <section id="account">
-    <div class="content-header">
-      <h1>地址管理</h1>
+    <div class="content-header clearfix">
+      <div class="title fl">
+        <span>登录密码</span>
+      </div>
+      <div class="title fr active">
+        <span>提现密码</span>
+      </div>
     </div>
     <div class="content-body">
-      <div class="input-group">
-        <label for="nickname">昵称</label>
-        <input type="text" id="nickname">
+      <div class="password">
+        <p>旧密码</p>
+        <input  type="text"/>
       </div>
-      <div class="input-group">
-        <label>性别</label>
-        <div class="radio-wrapper male">
-          <input type="radio" name="sex" value="0" selected>
-        </div>
-        <div class="radio-wrapper female">
-          <input type="radio" name="sex" value="1">
-        </div>
+      <div class="password">
+        <p>新密码</p>
+        <input class="" type="text"/>
       </div>
-      <div class="input-group">
-        <label for="nickname">生日</label>
-        <div class="select-wrapper year">
-          <input type="text">
-        </div>
-        <div class="select-wrapper month">
-          <input type="text">
-        </div>
-        <div class="select-wrapper day">
-          <input type="text">
-        </div>
+      <div class="password">
+        <p>重置新密码</p>
+        <input class="" type="text"/>
       </div>
-      <div class="input-group">
-        <label for="email">邮箱</label>
-        <input type="text" id="email">
-        <button class="hollow">绑定</button>
+      <div class="save">
+        <button>保存</button>
       </div>
-      <div class="input-group">
-        <label for="mobile">手机</label>
-        <input type="text" id="mobile">
-        <button class="hollow">绑定</button>
-      </div>
+
     </div>
   </section>
 </template>
 <script>
-  import y_date from '@/components/select/select'
-
   export default {
     data() {
       return {
-        years: [1900, 1901]
+
       }
-    },
-    components: {
-      'y-date': y_date
     }
   }
 </script>
@@ -60,50 +41,51 @@
 <style scoped lang="less">
   #account {
     padding: 30px 50px;
-    .content-body {
-      .input-group {
-        .radio-wrapper {
-          &::before {
-            margin-right: 5px;
-            font-size: 16px;
-          }
-          &.female {
-            &::before {
-              content: '女';
-            }
-          }
-          &.male {
-            &::before {
-              content: '男';
-            }
+    .content-header{
+      height: 25px;
+      border-bottom: none;
+      .title{
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 50%;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        &:first-child{
+          border-right: 2px solid #000;
+        }
+        &.active{
+          span{
+            border-bottom: 3px solid #000;
           }
         }
-        .select-wrapper {
-          display: inline-block;
-          &::after {
-            margin-right: 15px;
-          }
-          &.year {
-            &::after {
-              content: '年';
-            }
-          }
-          &.month {
-            &::after {
-              content: '月';
-            }
-          }
-          &.day {
-            &::after {
-              content: '日';
-            }
-          }
-          input {
-            width: 100px;
-            margin-right: 15px;
-          }
+        span{
+          padding: 8px 0;
         }
       }
+    }
+    .content-body {
+      font-size: 20px;
+      .password{
+        width:100%;
+        margin-bottom: 35px;
+        & p{
+          width:85px;
+          display: inline-block;
+        }
+        & input{
+          margin-left: 20px;
+        }
+
+      }
+      & button {
+        padding: 8px 25px;
+        margin-left: 108px;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
     }
   }
 </style>
