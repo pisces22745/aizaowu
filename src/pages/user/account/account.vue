@@ -72,12 +72,12 @@
       submit() {
         if (this.nick_name !== this.baseInfo.nick_name || this.birthday !== this.baseInfo.birthday || this.sex !== this.baseInfo.sex) {
           setBaseInfo({
-            nick_name: this.nick_name,
+            nickName: this.nick_name,
             birthday: this.birthday,
             sex: this.sex,
             email: this.email,
             mobile: this.mobile,
-            id: this.userInfo.id
+            userId: this.userInfo.id
           }).then(res => {
             if (res.code === 0) {
               this.SET_USERINFO({user_name: this.nick_name})
@@ -151,10 +151,10 @@
       }
     },
     mounted() {
-      getBaseInfo({id: this.userInfo.id}).then(res => {
+      getBaseInfo({userId: this.userInfo.id}).then(res => {
         if (res.code === 0) {
           this.baseInfo = res.data
-          this.nick_name = this.baseInfo.nick_name
+          this.nick_name = res.data.nickName
           this.birthday = this.baseInfo.birthday
           this.sex = this.baseInfo.sex + ''
           this.email = this.baseInfo.email

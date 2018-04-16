@@ -44,7 +44,7 @@
         if (emailReg.test(this.email) && this.password.length >= 6 && this.password.length <= 20) {
           login({
             email: this.email,
-            pwd: this.password
+            password: this.password
           }).then(res => {
             if (res.code === 0) {
               this.$message({
@@ -52,9 +52,9 @@
                 type: 'success'
               })
               this.LOGIN({
-                headerImg: 'default.jpg',
-                user_name: res.user_name,
-                id: 14
+                headerImg: res.data.headimg ? res.data.headimg : 'default.jpg',
+                user_name: res.data.userName,
+                id: res.data.id
               })
               this.TOGGLE_LOGIN_FRAME()
             } else {

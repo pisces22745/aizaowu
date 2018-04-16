@@ -1,7 +1,7 @@
 <template>
   <div id="forgetpwd">
     <div class="input-wrapper">
-      <input type="tel" v-model="mobile" placeholder="请输入手机号码">
+      <input type="tel" v-model="email" placeholder="请输入邮箱">
     </div>
     <div class="input-wrapper check-code clearfix">
       <input type="text" v-model="checkCode" class="fl" placeholder="请输入验证码">
@@ -20,10 +20,12 @@
   </div>
 </template>
 <script>
+  import {modifyLoginPwd, sendEmailCode} from '../../config/api'
+
   export default {
     data() {
       return {
-        mobile: '',
+        email: '',
         checkCodeMsg: '获取验证码',
         checkCode: '',
         checkCodeFlag: false,
@@ -33,29 +35,53 @@
     },
     methods: {
       getCheckCode() {
+//        let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
         if (!this.checkCodeFlag) {
-          let mobileReg = /^(13|14|15|17|18)[0-9]{9}$/
-          let _this = this
-          if (mobileReg.test(this.mobile)) {
-            let i = 20
-            _this.checkCodeMsg = --i + '秒重新获取'
-            this.checkCodeFlag = true
-            let clock = setInterval(function () {
-              if (i > 1) {
-                i--
-                _this.checkCodeMsg = i < 10 ? '0' + i + '秒重新获取' : i + '秒重新获取'
-              } else {
-                _this.checkCodeMsg = '重新获取'
-                _this.checkCodeFlag = false
-                clearInterval(clock)
-              }
-            }, 1000)
-          } else if (this.mobile === '') {
-            alert('请先输入手机号')
-          } else {
-            alert('手机号格式不正确')
-          }
+//          let mobileReg = /^(13|14|15|17|18)[0-9]{9}$/
+//          if (mobileReg.test(this.mobile)) {
+          sendEmailCode({
+            email: this.email,
+            type: 1
+          }).then(res => {
+            if (res.code === 0) {
+              alert('修改成功')
+              let i = 20
+              this.checkCodeMsg = --i + '秒重新获取'
+              this.checkCodeFlag = true
+              let clock = setInterval(() => {
+                if (i > 1) {
+                  i--
+                  this.checkCodeMsg = i < 10 ? '0' + i + '秒重新获取' : i + '秒重新获取'
+                } else {
+                  this.checkCodeMsg = '重新获取'
+                  this.checkCodeFlag = false
+                  clearInterval(clock)
+                }
+              }, 1000)
+            } else {
+              console.log(res.msg)
+              alert(res.msg)
+            }
+          })
+//          } else if (this.mobile === '') {
+//            alert('请先输入手机号')
+//          } else {
+//            alert('手机号格式不正确')
+//          }
         }
+      },
+      modifyPwd() {
+        modifyLoginPwd({
+          email: this.email,
+          passwd: this.password,
+          verifyCode: this.checkCode
+        }).then(res => {
+          if (res.code === 0) {
+            alert('成功')
+          } else {
+            alert('失败')
+          }
+        })
       },
       resetPwd() {
         console.log('reset')

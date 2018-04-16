@@ -43,21 +43,26 @@
           let _this = this
           if (emailReg.test(this.email)) {
             sendEmailCode({
-              email: this.email
+              email: this.email,
+              type: 0
             }).then(res => {
-              let i = 20
-              _this.checkCodeMsg = --i + '秒重新获取'
-              this.checkCodeFlag = true
-              let clock = setInterval(function () {
-                if (i > 1) {
-                  i--
-                  _this.checkCodeMsg = i < 10 ? '0' + i + '秒重新获取' : i + '秒重新获取'
-                } else {
-                  _this.checkCodeMsg = '重新获取'
-                  _this.checkCodeFlag = false
-                  clearInterval(clock)
-                }
-              }, 1000)
+              if (res.code === 0) {
+                let i = 20
+                _this.checkCodeMsg = --i + '秒重新获取'
+                this.checkCodeFlag = true
+                let clock = setInterval(function () {
+                  if (i > 1) {
+                    i--
+                    _this.checkCodeMsg = i < 10 ? '0' + i + '秒重新获取' : i + '秒重新获取'
+                  } else {
+                    _this.checkCodeMsg = '重新获取'
+                    _this.checkCodeFlag = false
+                    clearInterval(clock)
+                  }
+                }, 1000)
+              } else {
+                alert(res.code)
+              }
             })
           } else if (this.email === '') {
             this.$message({
@@ -76,7 +81,7 @@
         if (this.email !== '' && this.checkCode !== '' && this.password !== '') {
           addUser({
             email: this.email,
-            code: this.checkCode,
+            verifyCode: this.checkCode,
             passwd: this.password
           }).then(res => {
             if (res.code === 0) {
