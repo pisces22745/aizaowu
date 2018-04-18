@@ -2,7 +2,7 @@
   <section id="user">
     <div class="container clearfix">
       <div class="sidebar-wrapper fl">
-        <sidebar :username="userInfo.user_name" :headerImg="userInfo.headerImg" :menus="menus"></sidebar>
+        <sidebar :username="userName" :headerImg="headimg" :menus="menus"></sidebar>
       </div>
       <div class="content fr">
         <router-view></router-view>
@@ -12,7 +12,7 @@
 </template>
 <script>
   import sidebar from '@/components/sidebar/sidebar'
-  import {mapState} from 'vuex'
+  import {mapGetters} from 'vuex'
 
   export default {
     data() {
@@ -43,10 +43,9 @@
       }
     },
     computed: {
-      ...mapState(['userInfo'])
+      ...mapGetters(['userName', 'headimg'])
     },
     mounted() {
-      console.log(this.userInfo)
     },
     components: {
       sidebar

@@ -5,7 +5,7 @@
     </div>
     <div class="input-wrapper check-code clearfix">
       <input type="text" v-model="checkCode" class="fl" placeholder="请输入验证码">
-      <button class="check-code-msg fr" :class="{disabled: checkCodeFlag}" @click="getCheckCode">{{checkCodeMsg}}
+      <button class="button check-code-msg fr" :class="{disabled: checkCodeFlag}" @click="getCheckCode">{{checkCodeMsg}}
       </button>
     </div>
     <div class="input-wrapper">
@@ -15,7 +15,7 @@
       <input type="password" v-model="password1" placeholder="请确认新密码">
     </div>
     <div class="input-wrapper">
-      <button class="comfirm" @click="resetPwd">重置密码</button>
+      <button class="button comfirm" @click="resetPwd">重置密码</button>
     </div>
   </div>
 </template>

@@ -26,7 +26,8 @@ body {
   height: 0;
 }
 
-button {
+.button, .button:focus, .button:hover {
+  border-radius: 0;
   border: none;
   background-color: rgba(0, 0, 0, 1);
   color: #fff;
@@ -38,26 +39,27 @@ button {
   transition: all .2s;
 }
 
-button:hover {
+.button:hover {
+  color: #fff;
   background-color: rgba(0, 0, 0, .7);
 }
 
-button:active {
+.button:active {
   background-color: rgba(0, 0, 0, .5);
 }
 
-button.hollow {
+.button.hollow {
   background-color: transparent;
   border: 1px solid #000;
   color: #000;
   padding: 3px 6px;
 }
 
-button.hollow:hover {
+.button.hollow:hover {
   background-color: rgba(0, 0, 0, .2);
 }
 
-button.hollow:active {
+.button.hollow:active {
   background-color: rgba(0, 0, 0, .5);
 }
 
@@ -282,4 +284,9 @@ i {
 
 .el-input__icon {
   line-height: 35px;
+}
+
+.empty {
+  padding: 35px 0;
+  text-align: center;
 }

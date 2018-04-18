@@ -22,7 +22,7 @@
         <input class="" type="text"/>
       </div>
       <div class="save">
-        <button>保存</button>
+        <button class="button">保存</button>
       </div>
 
     </div>

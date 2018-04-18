@@ -33,39 +33,52 @@
           </tr>
           </tbody>
         </table>
-        <button class="hollow btn-add" @click="btnAddFlag = !btnAddFlag"><i class="iconfont icon-add"></i>新增收获地址
+        <div class="empty empty-addr" v-if="addresses.length===0">暂无收货地址</div>
+        <button class="button hollow btn-add" @click="btnAddFlag = !btnAddFlag"><i class="iconfont icon-add"></i>新增收获地址
         </button>
       </div>
       <transition name="fade">
-        <div class="add-address" v-if="btnAddFlag">
-          <div class="input-group">
-            <label for="receiver-name">收货人</label>
-            <input type="text" id="receiver-name" v-model="receiver.name">
-          </div>
-          <div class="input-group">
-            <label for="receiver-area">所在地区</label>
-            <input type="text" id="receiver-area" v-model="receiver.area">
-          </div>
-          <div class="input-group">
-            <label for="receiver-detail">详细地址</label>
-            <input type="text" id="receiver-detail" v-model="receiver.detail">
-          </div>
-          <div class="input-group">
-            <label for="receiver-mobile">手机号码</label>
-            <input type="text" id="receiver-mobile" v-model="receiver.mobile">
-          </div>
-          <div class="set-default">
+        <el-form ref="addressForm" class="add-address" :rules="rules" :model="receiver" label-width="90px"
+                 v-if="btnAddFlag">
+          <el-form-item label="收货人" class="input-group" prop="name">
+            <el-input v-model="receiver.name"></el-input>
+          </el-form-item>
+          <el-form-item label="所在地区" class="input-group" prop="area">
+            <!--<input type="text" v-model="receiver.area">-->
+            <el-cascader
+              :options="cityInfo"
+              v-model="selectedOptions"
+              :change-on-select="true"
+              :clearable="true"
+              :filterable="true"
+              @change="handleChange">
+            </el-cascader>
+          </el-form-item>
+          <el-form-item label="详细地址" class="input-group" prop="addr">
+            <el-input v-model="receiver.addr"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码" class="input-group" prop="mobile">
+            <el-input v-model="receiver.mobile"></el-input>
+          </el-form-item>
+          <el-form-item class="input-group">
             <i class="iconfont" :class="[defaultFlag ? 'icon-checkbox-default' : 'icon-checkbox-active']"
                @click="defaultFlag = !defaultFlag"></i>
             <span>设为默认地址</span>
-          </div>
-          <button @click="saveAddress">保存</button>
-        </div>
+          </el-form-item>
+          <el-form-item>
+            <!--<button @click="saveAddress">保存</button>-->
+            <el-button class="button" @click="saveAddress">保存</el-button>
+          </el-form-item>
+        </el-form>
       </transition>
     </div>
   </section>
 </template>
 <script>
+  import {getAddrList, addAddress} from '../../../config/api'
+  import cityData from '../../../config/city-data'
+  import {mapGetters} from 'vuex'
+
   export default {
     data() {
       return {
@@ -73,27 +86,59 @@
         addresses: [{
           name: '烧录亲',
           area: '浙江省杭州市西湖区',
-          detail: '学院路123号',
+          addr: '学院路123号',
           mobile: '15896589658',
           isDefault: true
         }, {
           name: '烧录亲1 ',
           area: '浙江省杭州市西湖区',
-          detail: '学院路321号',
+          addr: '学院路321号',
           mobile: '15896589784',
           isDefault: false
         }],
         btnAddFlag: false,
-        receiver:{
+        receiver: {
           name: '',
           area: '',
-          detail: '',
+          addr: '',
           mobile: '',
           isDefault: true
+        },
+        selectedOptions: [],
+        cityInfo: cityData,
+        rules: {
+          name: [
+            {required: true, message: '请输入收货人姓名', trigger: 'blur'},
+            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+          ],
+          area: [
+            {required: true, message: '请选择地址', trigger: 'change'}
+          ],
+          addr: [
+            {required: true, message: '请输入详细地址', trigger: 'blur'}
+          ],
+          mobile: [
+            {required: true, message: '请输入手机号', trigger: 'change'}
+          ]
         }
       }
     },
+    computed: {
+      ...mapGetters(['id'])
+    },
     methods: {
+      handleChange(value) {
+        let pro = this.cityInfo.find((item) => {
+          return item.value === value[0]
+        })
+        let city = value[1] ? pro.children.find((item) => {
+          return item.value === value[1]
+        }) : {}
+        let area = value[2] ? city.children.find((item) => {
+          return item.value === value[2]
+        }) : {}
+        this.receiver.area = pro.label + (city.label ? city.label : '') + (area.label ? area.label : '')
+      },
       showBtnSetDefault(e) {
         e.preventDefault()
         if (e.target.lastChild.lastChild.style) {
@@ -109,14 +154,61 @@
       deleteAddress(address, index) {
         this.addresses.splice(index, 1)
       },
-      saveAddress(){
-        this.receiver.isDefault = !this.defaultFlag
-        this.addresses.push(this.receiver)
+      saveAddress() {
+        this.$refs['addressForm'].validate((valid) => {
+          if (valid) {
+            this.receiver.userId = this.id
+            addAddress(this.receiver).then(res => {
+              if (res.code === 0) {
+                this.getAddressList()
+                this.$message({
+                  message: '添加成功',
+                  type: 'success'
+                })
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: 'error'
+                })
+              }
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      getAddressList() {
+        getAddrList({
+          userId: this.id
+        }).then(res => {
+          if (res.code === 0) {
+            this.addresses = res.data
+          } else {
+            this.$message({
+              message: res.msg,
+              type: 'error'
+            })
+          }
+        })
       }
+    },
+    mounted() {
+      this.getAddressList()
     }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="less">
+  #address {
+    .el-form-item__label {
+      text-align: left;
+      color: #000;
+    }
+    .el-input {
+      width: 280px;
+    }
+  }
+</style>
 <style scoped lang="less">
   #address {
     padding: 30px 50px;
@@ -132,15 +224,11 @@
       #receiver-detail {
         width: 480px;
       }
-      .set-default, button {
-        margin-left: 93px;
-      }
       .set-default {
         margin-bottom: 30px;
       }
       button {
         padding: 8px 20px;
-        margin-left: 93px;
       }
     }
     .address-list {

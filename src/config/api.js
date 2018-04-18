@@ -12,7 +12,7 @@ export const addUser = params => {
 
 // 发送验证码
 export const sendEmailCode = params => {
-  return axios.post(`${base}/sendEmailCode`, qs.stringify(params)).then(res => res.data)
+  return axios.get(`${base}/sendEmailCode`, {params: params}).then(res => res.data)
 }
 
 // 登陆
@@ -36,4 +36,22 @@ export const bindEmail = params => {
 // 修改登录密码
 export const modifyLoginPwd = params => {
   return axios.post(`${base}/user/modifyPassWd`, qs.stringify(params)).then(res => res.data)
+}
+// 根据旧密码修改密码
+export const modifyUserPasswd = params => {
+  return axios.get(`${base}/modifyUserPasswd`, {params: params}).then(res => res.data)
+}
+// 获取地址列表
+export const getAddrList = params => {
+  return axios.get(`${base}/getAddrList`, {params: params}).then(res => res.data)
+}
+
+// 添加地址
+export const addAddress = params => {
+  return axios.post(`${base}/addAddrInformation`, qs.stringify(params)).then(res => res.data)
+}
+
+// 获取订单列表
+export const getOrderList = params => {
+  return axios.get(`${base}/getOrderList`, {params: params}).then(res => res.data)
 }

@@ -11,7 +11,7 @@
           <span @mouseenter="childMenuShow(item,$event)" @click="changeType(item,$event)" ref="nav"
                 :class="{active:index===0}">{{item.name}}</span>
         </li>
-        <li @click="TOGGLE_DESIGNERREGISTE_FRAME"><span>设计师中心</span></li>
+        <li><span>设计师中心</span></li>
       </ul>
       <div class="tool">
         <div class="search clearfix">
@@ -20,12 +20,12 @@
           </transition>
           <i class="fr iconfont icon-magnifier" @click="keyWordFlag = !keyWordFlag"></i>
         </div>
-        <div class="user" v-if="logined" @mouseenter="userMenuFlag=true">
-          <img :src="'http://icloudbadguy.xyz:9992/uploadImage/'+userInfo.headerImg" alt="头像">
+        <div class="user" v-if="id" @mouseenter="userMenuFlag=true">
+          <img :src="'http://icloudbadguy.xyz:9992/uploadImage/'+headimg" alt="头像" v-if="headimg">
         </div>
-        <div class="login-registe" v-if="!logined">
-          <span @click="TOGGLE_LOGIN_FRAME">登陆</span>
-          <span @click="TOGGLE_REGISTE_FRAME">注册</span>
+        <div class="login-registe" v-if="!id">
+          <span @click="open">登陆</span>
+          <span @click="TOGGLE_FRAME(1)">注册</span>
         </div>
       </div>
     </nav>
@@ -39,7 +39,7 @@
     <transition name='fade'>
       <div class="user-menu-wrapper" v-if="userMenuFlag" @mouseleave="userMenuFlag=false">
         <ul class="user-menu">
-          <li>{{userInfo.user_name}}</li>
+          <li>{{userName}}</li>
           <li>
             <router-link :to="{path: '/user/account'}">个人中心</router-link>
           </li>
@@ -54,10 +54,13 @@
         </ul>
       </div>
     </transition>
+    <y-frame v-if="frameFlag"></y-frame>
   </header>
 </template>
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapGetters, mapMutations} from 'vuex'
+  import Yheader from '@/components/header/header'
+  import Yframe from '@/components/frame/frame'
 
   export default {
     data() {
@@ -135,14 +138,18 @@
         keyWordFlag: false,
         childMenu: [],
         childMenuFlag: false,
-        userMenuFlag: false
+        userMenuFlag: false,
+        frameType: 0
       }
     },
     computed: {
-      ...mapState(['loginFlag', 'registeFlag', 'userInfo', 'logined'])
+      ...mapGetters(['id', 'userName', 'headimg', 'frameFlag'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_LOGIN_FRAME', 'TOGGLE_REGISTE_FRAME', 'LOGOUT', 'INIT_USER','TOGGLE_DESIGNERREGISTE_FRAME']),
+      ...mapMutations(['TOGGLE_FRAME', 'CLOSE_FRAME', 'LOGOUT']),
+      open() {
+        this.TOGGLE_FRAME(0)
+      },
       changeType(item, e) {
         this.$router.push(item.path)
       },
@@ -160,10 +167,20 @@
         this.LOGOUT()
         this.userMenuFlag = false
         this.$router.push('/index')
+      },
+      openFrame(type) {
+        this.TOGGLE_FRAME()
+        this.frameType = type
       }
     },
+    created() {
+      this.CLOSE_FRAME()
+    },
     mounted() {
-      this.INIT_USER()
+    },
+    components: {
+      'y-header': Yheader,
+      'y-frame': Yframe
     }
   }
 </script>
@@ -328,5 +345,13 @@
         }
       }
     }
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .2s
+  }
+
+  .fade-enter, .fade-leave-active {
+    opacity: 0
   }
 </style>

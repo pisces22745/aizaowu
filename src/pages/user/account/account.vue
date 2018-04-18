@@ -29,7 +29,7 @@
       <div class="input-group">
         <label for="email">邮箱</label>
         <input type="text" id="email" v-model="email">
-        <button class="hollow" @click="bindEmail">绑定</button>
+        <button class="button hollow" @click="bindEmail">绑定</button>
       </div>
       <!--<div class="input-group">-->
       <!--<label for="mobile">手机</label>-->
@@ -38,14 +38,14 @@
       <!--</div>-->
       <div class="input-group">
         <label></label>
-        <button class="submit" @click="submit">保存</button>
+        <button class="button submit" @click="submit">保存</button>
       </div>
     </div>
   </section>
 </template>
 <script>
   import {getBaseInfo, setBaseInfo, sendEmailCode, bindEmail} from '@/config/api'
-  import {mapState, mapMutations} from 'vuex'
+  import {mapGetters, mapMutations} from 'vuex'
 
   export default {
     data() {
@@ -57,31 +57,45 @@
         mobile: '',
         pickerOptions: {
           disabledDate(time) {
-            return time.getTime() > Date.now();
+            return time.getTime() > Date.now()
           }
         },
         baseInfo: {},
-        flag: false
+        flag: false,
+        disabled: true
       }
     },
     computed: {
-      ...mapState(['userInfo'])
+      ...mapGetters(['id'])
+    },
+    watch: {
+      nick_name(newVal, oldVal) {
+        this.disabled = newVal === this.baseInfo.nickName
+      },
+      birthday(newVal, oldVal) {
+        this.disabled = newVal === this.baseInfo.birthday
+      },
+      email(newVal, oldVal) {
+        this.disabled = newVal === this.baseInfo.email
+      },
+      sex(newVal, oldVal) {
+        this.disabled = +newVal === this.baseInfo.sex
+      }
     },
     methods: {
       ...mapMutations(['SET_USERINFO', 'GET_USERINFO']),
       submit() {
-        if (this.nick_name !== this.baseInfo.nick_name || this.birthday !== this.baseInfo.birthday || this.sex !== this.baseInfo.sex) {
+        if (!this.disabled) {
           setBaseInfo({
             nickName: this.nick_name,
             birthday: this.birthday,
             sex: this.sex,
             email: this.email,
             mobile: this.mobile,
-            userId: this.userInfo.id
+            userId: this.id
           }).then(res => {
             if (res.code === 0) {
-              this.SET_USERINFO({user_name: this.nick_name})
-//              this.GET_USERINFO()
+              this.getBaseInfo()
               this.$message({
                 message: res.msg,
                 type: 'success'
@@ -113,7 +127,7 @@
                 inputErrorMessage: '验证码格式不正确'
               }).then(({value}) => {
                 bindEmail({
-                  id: this.userInfo.id,
+                  id: this.id,
                   email: this.email,
                   code: value
                 }).then(res => {
@@ -148,24 +162,27 @@
             message: '请更改邮箱'
           })
         }
+      },
+      getBaseInfo() {
+        getBaseInfo({userId: this.id}).then(res => {
+          if (res.code === 0) {
+            this.baseInfo = res.data
+            this.nick_name = res.data.nickName
+            this.birthday = this.baseInfo.birthday
+            this.sex = this.baseInfo.sex + ''
+            this.email = this.baseInfo.email
+            this.mobile = this.baseInfo.mobile
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.msg
+            })
+          }
+        })
       }
     },
     mounted() {
-      getBaseInfo({userId: this.userInfo.id}).then(res => {
-        if (res.code === 0) {
-          this.baseInfo = res.data
-          this.nick_name = res.data.nickName
-          this.birthday = this.baseInfo.birthday
-          this.sex = this.baseInfo.sex + ''
-          this.email = this.baseInfo.email
-          this.mobile = this.baseInfo.mobile
-        } else {
-          this.$message({
-            type: 'error',
-            message: res.msg
-          })
-        }
-      })
+      this.getBaseInfo()
     }
   }
 </script>

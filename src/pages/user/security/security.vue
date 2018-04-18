@@ -16,13 +16,13 @@
         <label for="repeat-pwd">重复新密码</label>
         <input type="password" id="repeat-pwd" v-model="newPwdRepeat">
       </div>
-      <button>保存</button>
+      <button class="button" @click="modifyPwd">保存</button>
     </div>
   </section>
 </template>
 <script>
-  import {modifyLoginPwd} from '../../../config/api'
-  import {mapState} from 'vuex'
+  import {modifyUserPasswd} from '../../../config/api'
+  import {mapGetters} from 'vuex'
 
   export default {
     data() {
@@ -33,19 +33,47 @@
       }
     },
     computed: {
-      ...mapState(['userInfo'])
+      ...mapGetters(['id'])
     },
     methods: {
       modifyPwd() {
-        modifyLoginPwd({
-          email: this.userInfo
-        }).then(res => {
-          if (res.code === 0) {
-
-          } else {
-
-          }
-        })
+        if (this.oldPwd !== '' && this.newPwd !== '' && this.newPwdRepeat === this.newPwd) {
+          modifyUserPasswd({
+            userId: this.id,
+            oldPasswd: this.oldPwd,
+            newPasswd: this.newPwd
+          }).then(res => {
+            if (res.code === 0) {
+              this.$message({
+                message: '修改密码成功',
+                type: 'success'
+              })
+              this.oldPwd = ''
+              this.newPwd = ''
+              this.newPwdRepeat = ''
+            } else {
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
+            }
+          })
+        } else if (this.oldPwd === '') {
+          this.$message({
+            message: '请输入旧密码',
+            type: 'error'
+          })
+        } else if (this.newPwd === '') {
+          this.$message({
+            message: '请输入新密码',
+            type: 'error'
+          })
+        } else {
+          this.$message({
+            message: '两次密码输入不一致',
+            type: 'error'
+          })
+        }
       }
     },
     mounted() {

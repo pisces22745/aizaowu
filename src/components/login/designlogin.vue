@@ -7,13 +7,13 @@
       <input type="password" v-model="password" placeholder="请输入密码">
     </div>
     <div class="input-wrapper">
-      <button class="comfirm" @click="login">登录</button>
+      <button class="button comfirm">登录</button>
     </div>
     <div class="input-wrapper clearfix">
       <span @click="TOGGLE_FORGETPWD_FRAME">忘记密码</span>
     </div>
     <div class="input-wrapper">
-      <button class="hollow" @click="toBeDesigner">申请成为设计师</button>
+      <button class="button hollow">申请成为设计师</button>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@
       ...mapState(['forgetPwdFlag'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_DESIGNERREGISTE_FRAME', 'DESIGNLOGIN']),
+      // ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_DESIGNERREGISTE_FRAME', 'DESIGNLOGIN']),
       login() {
         let mobileFlag = /^(13|14|15|17|18)[0-9]{9}$/
         if (mobileFlag.test(this.mobile) && this.password.length >= 6 && this.password.length <= 20) {

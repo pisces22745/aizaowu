@@ -32,12 +32,12 @@
       <div class="input-group">
         <label for="email">邮箱</label>
         <input type="text" id="email">
-        <button class="hollow">绑定</button>
+        <button class="button hollow">绑定</button>
       </div>
       <div class="input-group">
         <label for="mobile">手机</label>
         <input type="text" id="mobile">
-        <button class="hollow">绑定</button>
+        <button class="button hollow">绑定</button>
       </div>
     </div>
   </section>

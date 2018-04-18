@@ -4,14 +4,14 @@
       <input type="tel" v-model="email" placeholder="请输入邮箱">
     </div>
     <div class="input-wrapper">
-      <input type="password" v-model="password" placeholder="请输入密码">
+      <input type="password" v-model="password" @keyup.enter="login" placeholder="请输入密码">
     </div>
     <div class="input-wrapper">
-      <button class="comfirm" @click="login">登录</button>
+      <button class="button comfirm" @click="login">登录</button>
     </div>
     <div class="input-wrapper registe-forget clearfix">
-      <span class="fl" @click="TOGGLE_REGISTE_FRAME">注册账号</span>
-      <span class="fr" @click="TOGGLE_FORGETPWD_FRAME">忘记密码</span>
+      <span class="fl" @click="TOGGLE_FRAME(1)">注册账号</span>
+      <span class="fr" @click="TOGGLE_FRAME(2)">忘记密码</span>
     </div>
     <div class="input-wrapper login-way">
       <h5>使用第三放账号登陆</h5>
@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapMutations} from 'vuex'
   import {login} from '@/config/api'
 
   export default {
@@ -34,11 +34,8 @@
         password: ''
       }
     },
-    computed: {
-      ...mapState(['registeFlag', 'forgetPwdFlag', 'logined'])
-    },
     methods: {
-      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME', 'LOGIN']),
+      ...mapMutations(['TOGGLE_FRAME', 'CLOSE_FRAME', 'SET_USERINFO']),
       login() {
         let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
         if (emailReg.test(this.email) && this.password.length >= 6 && this.password.length <= 20) {
@@ -51,12 +48,16 @@
                 message: res.msg,
                 type: 'success'
               })
-              this.LOGIN({
-                headerImg: res.data.headimg ? res.data.headimg : 'default.jpg',
-                user_name: res.data.userName,
-                id: res.data.id
+              let data = res.data
+              // this.SET_USERINFO(res.data)
+              this.SET_USERINFO({
+                headimg: data.heading,
+                id: data.id,
+                email: data.email,
+                sex: data.sex,
+                userName: data.nickName
               })
-              this.TOGGLE_LOGIN_FRAME()
+              this.CLOSE_FRAME()
             } else {
               this.$message({
                 message: res.msg,

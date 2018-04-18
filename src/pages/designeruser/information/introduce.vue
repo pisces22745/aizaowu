@@ -18,7 +18,7 @@
         <textarea name="introduce" id="introduce" rows="10" class="introduce"></textarea>
       </div>
       <div class="save">
-        <button class="">保存</button>
+        <button class="button">保存</button>
       </div>
     </div>
   </section>

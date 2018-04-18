@@ -5,16 +5,16 @@
     </div>
     <div class="input-wrapper check-code clearfix">
       <input type="text" v-model="checkCode" class="fl" placeholder="请输入验证码">
-      <button class="check-code-msg fr" :class="{disabled: checkCodeFlag}" @click="getCheckCode">{{checkCodeMsg}}
+      <button class="button check-code-msg fr" :class="{disabled: checkCodeFlag}" @click="getCheckCode">{{checkCodeMsg}}
       </button>
     </div>
     <div class="input-wrapper">
       <input type="password" v-model="password" placeholder="请输入密码">
     </div>
     <div class="input-wrapper">
-      <button class="comfirm" @click="registe">注册</button>
+      <button class="button comfirm" @click="registe">注册</button>
     </div>
-    <div class="login" @click="TOGGLE_LOGIN_FRAME">登录</div>
+    <div class="login" @click="TOGGLE_FRAME(0)">登录</div>
   </div>
 </template>
 <script>
@@ -36,7 +36,7 @@
       ...mapState(['registeFlag', 'loginFlag', 'forgetPwdFlag'])
     },
     methods: {
-      ...mapMutations(['TOGGLE_FORGETPWD_FRAME', 'TOGGLE_REGISTE_FRAME', 'TOGGLE_LOGIN_FRAME', 'LOGIN']),
+      ...mapMutations(['TOGGLE_FRAME']),
       getCheckCode() {
         if (!this.checkCodeFlag) {
           let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
