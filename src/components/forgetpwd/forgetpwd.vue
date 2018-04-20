@@ -35,8 +35,8 @@
     },
     methods: {
       getCheckCode() {
-//        let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
-        if (!this.checkCodeFlag) {
+        let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+        if (this.checkCodeMsg === '获取验证码' && emailReg.test(this.email)) {
 //          let mobileReg = /^(13|14|15|17|18)[0-9]{9}$/
 //          if (mobileReg.test(this.mobile)) {
           sendEmailCode({
@@ -44,7 +44,10 @@
             type: 1
           }).then(res => {
             if (res.code === 0) {
-              alert('修改成功')
+              this.$message({
+                message: '发送成功！',
+                type: 'success'
+              })
               let i = 20
               this.checkCodeMsg = --i + '秒重新获取'
               this.checkCodeFlag = true
@@ -59,8 +62,10 @@
                 }
               }, 1000)
             } else {
-              console.log(res.msg)
-              alert(res.msg)
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
             }
           })
 //          } else if (this.mobile === '') {
@@ -68,6 +73,18 @@
 //          } else {
 //            alert('手机号格式不正确')
 //          }
+        } else if (!emailReg.test(this.email)) {
+          if (this.email === '') {
+            this.$message({
+              message: '请输入邮箱',
+              type: 'warning'
+            })
+          } else {
+            this.$message({
+              message: '邮箱格式不正确',
+              type: 'warning'
+            })
+          }
         }
       },
       modifyPwd() {

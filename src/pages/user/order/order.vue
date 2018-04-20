@@ -90,6 +90,7 @@
       changeType(index) {
         this.activeIndex = this.activeIndex !== index ? index : this.activeIndex
         // 请求对应类型的订单
+        this.getOrderListByType(index)
       },
       deleteOrder(item) {
         console.log(item)
@@ -98,7 +99,7 @@
         // 0:全部 1：待付款 2：待发货 3：待收货
         getOrderList({
           userId: this.id,
-          status: 0
+          status: type
         }).then(res => {
           if (res.code === 0) {
             this.orderList = res.data

@@ -4,12 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import store from './vuex/store'
 import {
-  DatePicker, Radio, Message, Upload, MessageBox,
+  DatePicker, Radio, Message, Upload,
   Form,
   FormItem,
   Cascader,
   Input,
-  Button
+  Button,
+  MessageBox
 } from 'element-ui'
 import router from './config/router'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -25,13 +26,13 @@ Vue.use(FormItem)
 Vue.use(Cascader)
 Vue.use(Input)
 Vue.use(Button)
-// Vue.use(MessageBox)
 // Vue.use(Message)
 
 Vue.config.productionTip = false
 Vue.prototype.$message = Message
-Vue.prototype.$msgbox = MessageBox
-Vue.prototype.$prompt = MessageBox.prompt
+// Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$confirm = MessageBox.confirm
+// Vue.prototype.$prompt = MessageBox.prompt
 
 /* eslint-disable no-new */
 new Vue({

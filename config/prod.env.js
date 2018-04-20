@@ -1,4 +1,4 @@
 module.exports = {
   NODE_ENV: '"production"',
-  API_ROOT: '"//icloudbadguy.xyz:4000"'
+  API_ROOT: '"//icloudbadguy.xyz:8080"'
 }

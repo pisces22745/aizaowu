@@ -29,7 +29,7 @@
       <div class="input-group">
         <label for="email">邮箱</label>
         <input type="text" id="email" v-model="email">
-        <button class="button hollow" @click="bindEmail">绑定</button>
+        <!--<button class="button hollow" @click="bindEmail">绑定</button>-->
       </div>
       <!--<div class="input-group">-->
       <!--<label for="mobile">手机</label>-->
@@ -44,7 +44,7 @@
   </section>
 </template>
 <script>
-  import {getBaseInfo, setBaseInfo, sendEmailCode, bindEmail} from '@/config/api'
+  import {getBaseInfo, setBaseInfo, sendEmailCode} from '@/config/api'
   import {mapGetters, mapMutations} from 'vuex'
 
   export default {
@@ -126,23 +126,23 @@
                 inputPattern: /^[a-zA-Z0-9]{4}$/,
                 inputErrorMessage: '验证码格式不正确'
               }).then(({value}) => {
-                bindEmail({
-                  id: this.id,
-                  email: this.email,
-                  code: value
-                }).then(res => {
-                  if (res.code === 0) {
-                    this.$message({
-                      type: 'success',
-                      message: '绑定成功'
-                    })
-                  } else {
-                    this.$message({
-                      type: 'error',
-                      message: res.msg
-                    })
-                  }
-                })
+                // bindEmail({
+                //   id: this.id,
+                //   email: this.email,
+                //   code: value
+                // }).then(res => {
+                //   if (res.code === 0) {
+                //     this.$message({
+                //       type: 'success',
+                //       message: '绑定成功'
+                //     })
+                //   } else {
+                //     this.$message({
+                //       type: 'error',
+                //       message: res.msg
+                //     })
+                //   }
+                // })
               }).catch(() => {
                 this.$message({
                   type: 'info',

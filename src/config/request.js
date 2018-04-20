@@ -67,16 +67,20 @@ export default {
     if (!headers) {
       headers = {}
     }
+    // let temp = new FormData()
+    // for (var key in formData) {
+    //   temp.append(key, formData[key])
+    // }
     if (store.getters.token && store.getters.expire > new Date()) {
       // headers.Authorization = 'Bearer ' + store.getters.token
       headers['Authorization'] = 'Bearer ' + store.getters.token
     }
     var loading = Loading.service({fullscreen: true, text: '玩命加载中...'})
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       fetch(url, {
         method: 'POST',
         headers: headers,
-        body: formData
+        body: this.toFormData(formData)
       }).then((response) => {
         loading.close()
         if (response.ok) {
@@ -89,7 +93,7 @@ export default {
             if (!error) return
             Notification({title: '错误 ' + response.status, message: '系统维护中，请稍后', type: 'error'})
             reject(error)
-            //reject(error)
+            // reject(error)
           })
         }
       }).catch((err) => {
@@ -106,15 +110,11 @@ export default {
    * @returns {Promise}
    */
   toFormData(params) {
-    var body = ''
-    for (var key in params) {
-      if (body.length) {
-        body += '&'
-      }
-      body += key + '='
-      body += encodeURIComponent(params[key])
+    let formData = new FormData()
+    for (let key in params) {
+      formData.append(key, params[key])
     }
-    return body
+    return formData
   }
 }
 

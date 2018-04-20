@@ -9,7 +9,7 @@
           <thead>
           <tr>
             <td>收货人</td>
-            <td>所在地区</td>
+            <td>所在地址</td>
             <td>详细地址</td>
             <td>手机号码</td>
             <td>操作</td>
@@ -21,20 +21,22 @@
               @mouseleave="hideBtnSetDefault($event)">
             <td>{{address.name}}</td>
             <td>{{address.area}}</td>
-            <td>{{address.detail}}</td>
+            <td>{{address.addr}}</td>
             <td>{{address.mobile}}</td>
-            <td><span class="operate modify" @click="modifyAddress(item)">修改</span><span class="operate delete"
-                                                                                         @click="deleteAddress(address,index)">删除</span>
+            <td>
+              <span class="operate modify" @click="getAddress(address)">修改</span>
+              <span class="operate delete" @click="deleteAddress(address,index)">删除</span>
             </td>
             <td>
-              <span class="status" :class="{'default': address.isDefault}" v-if="address.isDefault">默认地址</span>
-              <span class="status" :class="{'not-default': !address.isDefault}" v-if="!address.isDefault">设为默认</span>
+              <span class="status" :class="{'default': address.isDefault===0}" v-if="address.isDefault===0">默认地址</span>
+              <span class="status" :class="{'not-default': address.isDefault!==0}"
+                    v-if="address.isDefault!==0" @click="setDefault(address)">设为默认</span>
             </td>
           </tr>
           </tbody>
         </table>
         <div class="empty empty-addr" v-if="addresses.length===0">暂无收货地址</div>
-        <button class="button hollow btn-add" @click="btnAddFlag = !btnAddFlag"><i class="iconfont icon-add"></i>新增收获地址
+        <button class="button hollow btn-add" @click="getAddress()"><i class="iconfont icon-add"></i>新增收获地址
         </button>
       </div>
       <transition name="fade">
@@ -45,9 +47,11 @@
           </el-form-item>
           <el-form-item label="所在地区" class="input-group" prop="area">
             <!--<input type="text" v-model="receiver.area">-->
+            {{receiver.area}}
             <el-cascader
               :options="cityInfo"
               v-model="selectedOptions"
+              :value="receiver.area"
               :change-on-select="true"
               :clearable="true"
               :filterable="true"
@@ -61,13 +65,15 @@
             <el-input v-model="receiver.mobile"></el-input>
           </el-form-item>
           <el-form-item class="input-group">
-            <i class="iconfont" :class="[defaultFlag ? 'icon-checkbox-default' : 'icon-checkbox-active']"
+            <i class="iconfont"
+               :class="[defaultFlag ? 'icon-checkbox-default' : 'icon-checkbox-active']"
                @click="defaultFlag = !defaultFlag"></i>
             <span>设为默认地址</span>
           </el-form-item>
           <el-form-item>
             <!--<button @click="saveAddress">保存</button>-->
-            <el-button class="button" @click="saveAddress">保存</el-button>
+            <el-button class="button" @click="saveAddress(0)" v-if="!addFlag">添加</el-button>
+            <el-button class="button" @click="saveAddress(1)" v-if="addFlag">修改</el-button>
           </el-form-item>
         </el-form>
       </transition>
@@ -75,7 +81,7 @@
   </section>
 </template>
 <script>
-  import {getAddrList, addAddress} from '../../../config/api'
+  import {getAddrList, addAddress, delAddress, modifyAddress} from '../../../config/api'
   import cityData from '../../../config/city-data'
   import {mapGetters} from 'vuex'
 
@@ -83,33 +89,16 @@
     data() {
       return {
         defaultFlag: false,
-        addresses: [{
-          name: '烧录亲',
-          area: '浙江省杭州市西湖区',
-          addr: '学院路123号',
-          mobile: '15896589658',
-          isDefault: true
-        }, {
-          name: '烧录亲1 ',
-          area: '浙江省杭州市西湖区',
-          addr: '学院路321号',
-          mobile: '15896589784',
-          isDefault: false
-        }],
+        addresses: [],
         btnAddFlag: false,
-        receiver: {
-          name: '',
-          area: '',
-          addr: '',
-          mobile: '',
-          isDefault: true
-        },
+        addFlag: true,
+        receiver: {},
         selectedOptions: [],
         cityInfo: cityData,
         rules: {
           name: [
             {required: true, message: '请输入收货人姓名', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+            {min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur'}
           ],
           area: [
             {required: true, message: '请选择地址', trigger: 'change'}
@@ -152,28 +141,88 @@
         }
       },
       deleteAddress(address, index) {
-        this.addresses.splice(index, 1)
+        this.$confirm('是否删除该地址？', '提示', {
+          type: 'warning'
+        }).then(() => {
+          delAddress({
+            addrId: address.id
+          }).then(res => {
+            if (res.code === 0) {
+              this.addresses.splice(index, 1)
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            } else {
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
+            }
+          })
+        }).catch(() => {
+        })
       },
-      saveAddress() {
+      saveAddress(type) {
         this.$refs['addressForm'].validate((valid) => {
           if (valid) {
             this.receiver.userId = this.id
-            addAddress(this.receiver).then(res => {
-              if (res.code === 0) {
-                this.getAddressList()
-                this.$message({
-                  message: '添加成功',
-                  type: 'success'
-                })
-              } else {
-                this.$message({
-                  message: res.msg,
-                  type: 'error'
-                })
-              }
-            })
+            this.receiver.isDefault = this.defaultFlag ? 1 : 0
+            if (type === 0) {
+              this.addAddress(this.receiver)
+            } else {
+              this.modifyAddress(this.receiver)
+            }
           } else {
             return false
+          }
+        })
+      },
+      addAddress(params) {
+        addAddress(params).then(res => {
+          if (res.code === 0) {
+            this.getAddressList()
+            this.$message({
+              message: '添加地址成功',
+              type: 'success'
+            })
+            this.btnAddFlag = false
+            this.receiver = {
+              name: '',
+              area: '',
+              addr: '',
+              mobile: '',
+              isDefault: -1
+            }
+          } else {
+            this.$message({
+              message: res.msg,
+              type: 'error'
+            })
+          }
+        })
+      },
+      modifyAddress(params) {
+        modifyAddress(params).then(res => {
+          if (res.code === 0) {
+            this.getAddressList()
+            this.$message({
+              message: '修改地址成功',
+              type: 'success'
+            })
+            this.btnAddFlag = false
+            this.receiver = {
+              name: '',
+              area: '',
+              addr: '',
+              mobile: '',
+              isDefault: -1
+            }
+          } else {
+            this.$message({
+              message: res.msg,
+              type: 'error'
+            })
           }
         })
       },
@@ -189,6 +238,42 @@
               type: 'error'
             })
           }
+        })
+      },
+      getAddress(address) {
+        this.addFlag = Boolean(address)
+        let [city, area] = ['', '', '']
+        for (let i = 0; i < cityData.length; i++) {
+          if (address.area.indexOf(cityData[i].label) >= 0) {
+            city = cityData[i].children
+            this.selectedOptions.push(cityData[i].value)
+            for (let j = 0; j < city.length; j++) {
+              if (address.area.indexOf(city[j].label) >= 0) {
+                this.selectedOptions.push(city[j].value)
+                area = city[j].children
+                for (let k = 0; k < area.length; k++) {
+                  if (address.area.indexOf(area[k].label) >= 0) {
+                    this.selectedOptions.push(area[k].value)
+                  }
+                }
+              }
+            }
+          }
+        }
+        this.receiver = address || {
+          name: '',
+          area: '',
+          addr: '',
+          mobile: '',
+          isDefault: 0
+        }
+        this.btnAddFlag = true
+      },
+      setDefault(address) {
+        this.modifyAddress({
+          isDefault: 0,
+          userId: this.id,
+          id: address.id
         })
       }
     },
@@ -253,6 +338,9 @@
             }
             &:nth-child(3) {
               width: 140px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
             &:nth-child(4) {
               width: 110px;
