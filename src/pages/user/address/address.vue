@@ -9,6 +9,7 @@
           <thead>
           <tr>
             <td>收货人</td>
+            <td>收货人</td>
             <td>所在地址</td>
             <td>详细地址</td>
             <td>手机号码</td>
@@ -19,6 +20,7 @@
           <tbody>
           <tr v-for="(address,index) in addresses" @mouseenter="showBtnSetDefault($event)"
               @mouseleave="hideBtnSetDefault($event)">
+            <td>{{address.name}}</td>
             <td>{{address.name}}</td>
             <td>{{address.area}}</td>
             <td>{{address.addr}}</td>
@@ -279,6 +281,7 @@
     },
     mounted() {
       this.getAddressList()
+      console.log(34423432)
     }
   }
 </script>
@@ -299,6 +302,7 @@
     padding: 30px 50px;
     .content-header {
       margin-bottom: 0;
+      margin-top: 100px;
     }
     .add-address {
       -webkit-transition: all .3s;
